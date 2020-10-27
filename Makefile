@@ -1,36 +1,59 @@
-# set this to the multipath-tools source directory
-MPATH_DIR :=
+# Copyright (c) 2020 SUSE LLC
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+# Set these to the multipath-tools source directory
+# and to the target (build container aka subdir) to use
+# The values will be remembered in the file "target"
+MPATH_DIR := $(shell [ -f target ] && sed 's/:.*$$//' target)
+TARGET := $(shell [ -f target ] && sed 's/^.*://' target)
+
 BUILDFLAGS := -j4 -O
 DOCKER := docker
+CNTDIR := /build
+DOCKER_OPTS := -u $$UID
 
-.PHONY:	*.img *.build *.clean *.test *.install mpath_dir
+# Don'c change these
+CURRENT = $(MPATH_DIR):$(TARGET)
+IMAGE = multipath-build-$(TARGET)
+
+.PHONY:	img build clean test install mpath_dir purge build-clean
+
+default:	test
 
 mpath_dir:
-	[ -n "$(MPATH_DIR)" -a -d $(MPATH_DIR)/libmultipath ]
+	@echo checking for valid MPATH_DIR
+	[ -n "$(MPATH_DIR)" -a -d "$(MPATH_DIR)/libmultipath" ]
 
-%.img:	%
-	cd $<; docker build -t build-multipath-$< .
+purge:	clean
+	$(DOCKER) image rm $(IMAGE)
 
-%.clean:	%.img
-	$(DOCKER) run --rm -u $$UID -v $(MPATH_DIR):/tmp/multipath $(@:%.clean=build-multipath-%) clean
+target:	mpath_dir $(TARGET)
+	@echo checking for valid TARGET
+	[ -n "$(TARGET)" ] && [ -d $(TARGET) ]
+	if [ -f $@ ] && [ "$$(cat $@)" != $(CURRENT) ]; then :>need_clean; fi
+	echo -n $(CURRENT) >$@
 
-%.build:	mpath_dir %.img
-	if [ ! -e current_target ] || [ $$(cat current_target) != $(MPATH_DIR):$(@:%.build=%) ]; then \
-		$(MAKE) $(@:%.build=%.clean); \
-	fi
-	@echo -n $(MPATH_DIR):$(@:%.build=%) >current_target
-	$(DOCKER) run --rm -u $$UID -v $(MPATH_DIR):/tmp/multipath \
-		$(@:%.build=build-multipath-%) $(MAKEFLAGS)
+build-clean:
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
+		$(IMAGE) $(BUILDFLAGS) clean
 
-%.test:	%.build
-	$(DOCKER) run --rm -u $$UID -v $(MPATH_DIR):/tmp/multipath \
-		$(@:%.test=build-multipath-%) $(MAKEFLAGS) tests.clean test
+clean:	build-clean
+	rm -f target
 
-%.install: %.build
+img:	target
+	cd $(TARGET) && docker build -t $(IMAGE) .
+
+build:	img
+	if [ -e need_clean ]; then make build-clean; rm -f need_clean; fi
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
+		$(IMAGE) $(BUILDFLAGS)
+
+test:	build
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
+		$(IMAGE) $(BUILDFLAGS) tests.clean test
+
+install:	build
 	[ -n "$(DESTDIR)" ]
 	mkdir -p $(DESTDIR)
-	$(DOCKER) run --rm -u $$UID -v $(MPATH_DIR):/tmp/multipath -v $(DESTDIR):$(DESTDIR) \
-		$(@:%.install=build-multipath-%) $(MAKEFLAGS) DESTDIR=$(DESTDIR) install
-
-%.purge:
-	$(DOCKER) image rm $(@:%.purge=build-multipath-%)
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) -v $(DESTDIR):$(DESTDIR) \
+		$(IMAGE) $(BUILDFLAGS) DESTDIR=$(DESTDIR) install

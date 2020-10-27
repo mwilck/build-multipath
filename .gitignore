@@ -2,3 +2,5 @@
 *.orig
 *~
 \#*#
+need_clean
+target
