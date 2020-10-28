@@ -14,7 +14,8 @@ DOCKER_OPTS := -u $$UID
 
 # Don'c change these
 CURRENT = $(MPATH_DIR):$(TARGET)
-IMAGE = multipath-build-$(TARGET)
+IS_LOCAL = $(patsubst registry.%,,$(TARGET))
+IMAGE = $(if $(IS_LOCAL),multipath-build-$(TARGET),$(TARGET))
 
 .PHONY:	img build clean test install mpath_dir purge build-clean
 
@@ -27,9 +28,11 @@ mpath_dir:
 purge:	clean
 	$(DOCKER) image rm $(IMAGE)
 
-target:	mpath_dir $(TARGET)
+target:	mpath_dir
+ifneq ($(IS_LOCAL),)
 	@echo checking for valid TARGET
 	[ -n "$(TARGET)" ] && [ -d $(TARGET) ]
+endif
 	if [ -f $@ ] && [ "$$(cat $@)" != $(CURRENT) ]; then :>need_clean; fi
 	echo -n $(CURRENT) >$@
 
@@ -41,7 +44,10 @@ clean:	build-clean
 	rm -f target
 
 img:	target
-ifeq ($(wildcard $(TARGET)/SUSEConnect),) 
+ifeq ($(IS_LOCAL),)
+	$(DOCKER) pull $(TARGET)
+else
+ifeq ($(wildcard $(TARGET)/SUSEConnect),)
 	cd $(TARGET) && docker build -t $(IMAGE) .
 else
 	cd $(TARGET) && \
@@ -49,6 +55,7 @@ else
 			--secret id=SUSEConnect,src=SUSEConnect \
 			--secret id=SCCcredentials,src=SCCcredentials \
 			.
+endif
 endif
 
 build:	img
