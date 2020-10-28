@@ -41,7 +41,15 @@ clean:	build-clean
 	rm -f target
 
 img:	target
+ifeq ($(wildcard $(TARGET)/SUSEConnect),) 
 	cd $(TARGET) && docker build -t $(IMAGE) .
+else
+	cd $(TARGET) && \
+		docker build -t $(IMAGE) \
+			--secret id=SUSEConnect,src=SUSEConnect \
+			--secret id=SCCcredentials,src=SCCcredentials \
+			.
+endif
 
 build:	img
 	if [ -e need_clean ]; then make build-clean; rm -f need_clean; fi
