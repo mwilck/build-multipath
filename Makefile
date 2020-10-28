@@ -33,7 +33,7 @@ target:	mpath_dir $(TARGET)
 	if [ -f $@ ] && [ "$$(cat $@)" != $(CURRENT) ]; then :>need_clean; fi
 	echo -n $(CURRENT) >$@
 
-build-clean:
+build-clean: img
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) clean
 
