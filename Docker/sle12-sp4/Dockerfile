@@ -62,6 +62,7 @@ RUN --mount=type=secret,id=SUSEConnect,required \
 	    libpython2_7-1_0 python-rpm-macros python-base \
 	    cmake tar
 RUN zypper clean -a
+RUN rm -rf cmocka*
 
 WORKDIR /build
 ENTRYPOINT ["make"]
