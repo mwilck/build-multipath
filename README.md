@@ -50,3 +50,23 @@ subdirectory of `Docker`, usually a nickname of a distribution, containing
 a Dockerfile. The Dockerfile should create an environment suitable for
 building `multipath-tools`. See existing Dockerfiles for examples.
 The built container image will be called `multipath-build-$TARGET`.
+
+### Note on SUSE Linux Enterprise (SLE) containers
+
+Building these containers requires a valid SLE subscription. 
+If in doubt, check your licensing conditions to figure out if you
+are entitled to build and run SLE containers in this way.
+
+Building the images requires features that are only available
+in recent docker versions. Before running `make`, set the environment variable
+`DOCKER_BUILDKIT=1`, otherwise the image build will fail.
+See [the documentation about building SLE containers](https://github.com/SUSE/container-suseconnect).
+
+On a registered SLE host, building the images should just work. In other
+environments, valid credentials must be pulled in from elsewhere.
+Copy the files `/etc/zypp/credentials.d/SCCcredentials` and `/etc/SUSEConnect` from
+a registered SLE system into the respective subdirectory before building
+the image. The registered system must have the required additional
+modules enabled (see the distribution's Dockerfile).
+
+
