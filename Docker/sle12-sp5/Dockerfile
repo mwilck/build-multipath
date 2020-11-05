@@ -30,8 +30,6 @@ RUN --mount=type=secret,id=SUSEConnect,required \
 	   liburcu-devel \
 	   readline-devel \
 	   systemd-devel
-VOLUME /build
-WORKDIR /build
 
 # cmocka is not available in SLE repositories
 
@@ -40,12 +38,13 @@ RUN --mount=type=secret,id=SUSEConnect,required \
      zypper -n --gpg-auto-import-keys install --no-recommends \
      	    cmake wget tar xz
 
-RUN wget https://cmocka.org/files/1.1/cmocka-1.1.1.tar.xz
+WORKDIR /tmp
+RUN wget -q https://cmocka.org/files/1.1/cmocka-1.1.1.tar.xz
 RUN tar xfvJ cmocka-1.1.1.tar.xz
-WORKDIR /build/cmocka-1.1.1
+WORKDIR /tmp/cmocka-1.1.1
 RUN mkdir build
 RUN rm -f CMakeCache.txt
-WORKDIR /build/cmocka-1.1.1/build
+WORKDIR /tmp/cmocka-1.1.1/build
 RUN cmake -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DLIB_INSTALL_DIR:PATH=/usr/lib64 \
@@ -53,6 +52,7 @@ RUN cmake -DCMAKE_INSTALL_PREFIX=/usr \
     ..
 RUN make
 RUN make install
+RUN rm -rf cmocka*
 
 RUN --mount=type=secret,id=SUSEConnect,required \
     --mount=type=secret,id=SCCcredentials,required \
@@ -60,8 +60,10 @@ RUN --mount=type=secret,id=SUSEConnect,required \
      	    libidn11 libarchive13 \
 	    libpython2_7-1_0 python-rpm-macros python-base \
 	    cmake tar
-RUN zypper clean -a
+RUN --mount=type=secret,id=SUSEConnect,required \
+    --mount=type=secret,id=SCCcredentials,required \
+    RUN zypper clean -a
 
+VOLUME /build
 WORKDIR /build
-RUN rm -rf cmocka*
 ENTRYPOINT ["make"]
