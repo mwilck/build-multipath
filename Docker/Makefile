@@ -51,7 +51,7 @@ ifeq ($(wildcard $(TARGET)/SUSEConnect),)
 	cd $(TARGET) && docker build -t $(IMAGE) .
 else
 	cd $(TARGET) && \
-		docker build -t $(IMAGE) \
+		DOCKER_BUILDKIT=1 docker build -t $(IMAGE) \
 			--secret id=SUSEConnect,src=SUSEConnect \
 			--secret id=SCCcredentials,src=SCCcredentials \
 			.
