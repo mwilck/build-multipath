@@ -62,7 +62,7 @@ RUN --mount=type=secret,id=SUSEConnect,required \
 	    cmake tar
 RUN --mount=type=secret,id=SUSEConnect,required \
     --mount=type=secret,id=SCCcredentials,required \
-    RUN zypper clean -a
+    zypper clean -a
 
 VOLUME /build
 WORKDIR /build
