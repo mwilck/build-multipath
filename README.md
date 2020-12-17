@@ -21,7 +21,7 @@ Subsequent `make` invocations can be done without setting `MPATH_DIR` and
 
 `MPATH_DIR` should be a directory containing the `multipath-tools` sources,
 such as a checked-out mirror of
-[the multipath-tools repository](https://github.com/openSUSE/multipath-tools).
+[the multipath-tools repository](https://github.com/opensvc/multipath-tools).
 The directory will be mounted into the container, and will be written to
 using comands like `make` and `make clean`.
 
