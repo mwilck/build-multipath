@@ -7,7 +7,7 @@
 MPATH_DIR := $(shell [ -f target ] && sed 's/:.*$$//' target)
 TARGET := $(shell [ -f target ] && sed 's/^.*://' target)
 
-BUILDFLAGS = $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
+BUILDFLAGS += $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
 DOCKER := docker
 CNTDIR := /build
 DOCKER_OPTS := -u $$UID
