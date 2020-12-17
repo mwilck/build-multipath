@@ -48,7 +48,7 @@ ifeq ($(IS_LOCAL),)
 	$(DOCKER) pull $(TARGET)
 else
 ifeq ($(wildcard $(TARGET)/SUSEConnect),)
-	cd $(TARGET) && docker build -t $(IMAGE) .
+	cd $(TARGET) && docker build --progress=plain -t $(IMAGE) .
 else
 	cd $(TARGET) && \
 		DOCKER_BUILDKIT=1 docker build -t $(IMAGE) \
