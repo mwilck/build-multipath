@@ -36,11 +36,11 @@ endif
 	if [ -f $@ ] && [ "$$(cat $@)" != $(CURRENT) ]; then :>need_clean; fi
 	echo -n $(CURRENT) >$@
 
-build-clean: img
+clean: img
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) clean
 
-clean:	build-clean
+img-clean:	build-clean
 	rm -f target
 
 img:	target
