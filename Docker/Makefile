@@ -8,9 +8,17 @@ MPATH_DIR := $(shell [ -f target ] && sed 's/:.*$$//' target)
 TARGET := $(shell [ -f target ] && sed 's/^.*://' target)
 
 BUILDFLAGS += $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
-DOCKER := docker
+DOCKER := $(DOCKER)
 CNTDIR := /build
+ifeq ($(DOCKER),docker)
 DOCKER_OPTS := -u $$UID
+BUILD_OPTS := --progress=plain
+else
+ifeq ($(DOCKER),podman)
+DOCKER_OPTS := --userns=keep-id
+endif
+endif
+DOCKER_OPTS += --name multipath-build-$(TARGET)
 
 # Don'c change these
 CURRENT = $(MPATH_DIR):$(TARGET)
@@ -48,10 +56,10 @@ ifeq ($(IS_LOCAL),)
 	$(DOCKER) pull $(TARGET)
 else
 ifeq ($(wildcard $(TARGET)/SUSEConnect),)
-	cd $(TARGET) && docker build --progress=plain -t $(IMAGE) .
+	cd $(TARGET) && $(DOCKER) build -t $(IMAGE) .
 else
 	cd $(TARGET) && \
-		DOCKER_BUILDKIT=1 docker build -t $(IMAGE) \
+		DOCKER_BUILDKIT=1 $(DOCKER) build -t $(IMAGE) \
 			--secret id=SUSEConnect,src=SUSEConnect \
 			--secret id=SCCcredentials,src=SCCcredentials \
 			.
@@ -75,3 +83,6 @@ install:	build
 	mkdir -p $(DESTDIR)
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) -v $(DESTDIR):$(DESTDIR) \
 		$(IMAGE) $(BUILDFLAGS) DESTDIR=$(DESTDIR) install
+
+shell:	img
+	$(DOCKER) run -it --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) --entrypoint=/bin/sh $(IMAGE)
