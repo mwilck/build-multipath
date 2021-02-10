@@ -23,7 +23,7 @@ default:	test
 
 mpath_dir:
 	@echo checking for valid MPATH_DIR
-	[ -n "$(MPATH_DIR)" -a -d "$(MPATH_DIR)/libmultipath" ]
+	[ -n "$(MPATH_DIR)" ]
 
 purge:	clean
 	$(DOCKER) image rm $(IMAGE)
