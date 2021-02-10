@@ -3,7 +3,7 @@
 # Copyright (c) 2020 SUSE LLC
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-FROM registry.suse.com/suse/sle15:15.2
+FROM registry.suse.com/suse/sle15:15.2.8.2.695
 ARG ADDITIONAL_MODULES=sle-module-development-tools,PackageHub
 
 # Copy /etc/zypp/credentials.d/SCCcredentials and /etc/SUSEConnect
