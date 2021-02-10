@@ -63,9 +63,12 @@ build:	img
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS)
 
-test:	build
+test.clean:	build
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) tests.clean test
+test:	build
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
+		$(IMAGE) $(BUILDFLAGS) test
 
 install:	build
 	[ -n "$(DESTDIR)" ]
