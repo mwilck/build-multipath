@@ -2,7 +2,7 @@
 trap 'echo error in "$BASH_COMMAND" >&2; exit 1' ERR
 NAME=$1
 [[ $NAME && -f SUSEConnect && -f SCCcredentials ]]
-BASE="registry.suse.com/suse/sles12sp4:26.4
+BASE="registry.suse.com/suse/sles12sp4:26.4"
 ADDONS="sle-sdk,PackageHub"
 set -x
 WORK=$(buildah from "$BASE")
