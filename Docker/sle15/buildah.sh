@@ -2,7 +2,7 @@
 trap 'echo error in "$BASH_COMMAND" >&2; exit 1' ERR
 NAME=$1
 [[ $NAME && -f SUSEConnect && -f SCCcredentials ]]
-BASE="registry.suse.com/suse/sle15:15.0.4.10.13"
+BASE="registry.suse.com/suse/sle15:15.0.4.22.322"
 ADDONS="sle-module-development-tools,PackageHub"
 set -x
 WORK=$(buildah from "$BASE")
@@ -11,7 +11,7 @@ buildah config --env "ADDITIONAL_MODULES=$ADDONS" "$WORK"
 buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect \
 	 --mount=type=bind,src=$PWD/SCCcredentials,dst=/run/secrets/SCCcredentials \
 	 "$WORK" \
-	 zypper -n --gpg-auto-import-keys \
+	 zypper --gpg-auto-import-keys \
 	 install --no-recommends \
 		make gcc perl-base \
 	   gzip gawk \
