@@ -70,8 +70,8 @@ ifeq ($(DOCKER),podman)
 		./buildah.sh $(IMAGE)
 endif
 endif
-	$(DOCKER) image inspect --format '{{.ID}}' $(IMAGE) >$@
 endif
+	$(DOCKER) image inspect --format '{{.ID}}' $(IMAGE) >$@
 endif
 
 img:	$(TARGET)/image-id
