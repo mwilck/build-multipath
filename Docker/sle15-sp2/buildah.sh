@@ -30,4 +30,4 @@ buildah config --workingdir /build "$WORK"
 buildah config --entrypoint '[ "make" ]' "$WORK"
 ID=$(buildah commit "$WORK" "$NAME")
 buildah rm "$WORK"
-echo $ID >image_id
+echo $ID

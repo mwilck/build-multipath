@@ -24,7 +24,6 @@ buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect
 	   systemd-devel \
 	   cmake wget tar xz
 
-buildah run "$WORK" zypper clean --all
 buildah config --env "ADDITIONAL_MODULES-" "$WORK"
 buildah config --volume /build "$WORK"
 buildah config --workingdir /build "$WORK"
@@ -44,6 +43,7 @@ buildah run "$WORK" \
 	    libmetalink3 librhash0 libuv1 libarchive13 libcares2 python3-base \
 	    libpython3_6m1_0 python-rpm-macros \
 	    cmake wget tar xz
+buildah run "$WORK" zypper clean --all
 buildah config --entrypoint '[ "make" ]' "$WORK"
 ID=$(buildah commit "$WORK" "$NAME")
 buildah rm "$WORK"
