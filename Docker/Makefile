@@ -8,7 +8,7 @@ MPATH_DIR := $(shell [ -f target ] && sed 's/:.*$$//' target)
 TARGET := $(shell [ -f target ] && sed 's/^.*://' target)
 
 BUILDFLAGS += $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
-DOCKER := $(DOCKER)
+DOCKER := docker
 CNTDIR := /build
 ifeq ($(DOCKER),docker)
 DOCKER_OPTS := -u $$UID
@@ -35,6 +35,7 @@ mpath_dir:
 
 purge:	clean
 	$(DOCKER) image rm $(IMAGE)
+	rm $(TARGET)/image-id
 
 target:	mpath_dir
 ifneq ($(IS_LOCAL),)
@@ -51,20 +52,29 @@ clean: img
 img-clean:	build-clean
 	rm -f target
 
-img:	target
+$(TARGET)/image-id:
 ifeq ($(IS_LOCAL),)
 	$(DOCKER) pull $(TARGET)
 else
 ifeq ($(wildcard $(TARGET)/SUSEConnect),)
 	cd $(TARGET) && $(DOCKER) build -t $(IMAGE) .
 else
+ifeq ($(DOCKER),docker)
 	cd $(TARGET) && \
 		DOCKER_BUILDKIT=1 $(DOCKER) build -t $(IMAGE) \
 			--secret id=SUSEConnect,src=SUSEConnect \
-			--secret id=SCCcredentials,src=SCCcredentials \
-			.
+			--secret id=SCCcredentials,src=SCCcredentials
+else
+ifeq ($(DOCKER),podman)
+	cd $(TARGET) && \
+		./buildah.sh $(IMAGE)
 endif
 endif
+	$(DOCKER) image inspect --format '{{.ID}}' $(IMAGE) >$@
+endif
+endif
+
+img:	$(TARGET)/image-id
 
 build:	img
 	if [ -e need_clean ]; then make build-clean; rm -f need_clean; fi
