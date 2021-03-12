@@ -17,4 +17,5 @@ RUN zypper -n --gpg-auto-import-keys \
 	   
 VOLUME /build
 WORKDIR /build
+ENV CC=gcc-11
 ENTRYPOINT ["make"]
