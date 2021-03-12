@@ -8,8 +8,10 @@ MPATH_DIR := $(shell [ -f target ] && sed 's/:.*$$//' target)
 TARGET := $(shell [ -f target ] && sed 's/^.*://' target)
 
 BUILDFLAGS += $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
-DOCKER := docker
+DOCKER := $(shell (which docker || which podman || echo NO-DOCKER) | sed 's,.*/,,')
 CNTDIR := /build
+
+
 ifeq ($(DOCKER),docker)
 DOCKER_OPTS := -u $$UID
 BUILD_OPTS := --progress=plain
@@ -25,13 +27,13 @@ CURRENT = $(MPATH_DIR):$(TARGET)
 IS_LOCAL = $(patsubst registry.%,,$(TARGET))
 IMAGE = $(if $(IS_LOCAL),multipath-build-$(TARGET),$(TARGET))
 
-.PHONY:	img build clean test install mpath_dir purge build-clean
+.PHONY:	img build clean test install mpath_dir purge build-clean target
 
 default:	test
 
 mpath_dir:
 	@echo checking for valid MPATH_DIR
-	[ -n "$(MPATH_DIR)" ]
+	[ -n "$(MPATH_DIR)" ] && [ -d "$(MPATH_DIR)" ]
 
 purge:	clean
 	$(DOCKER) image rm $(IMAGE)
@@ -40,19 +42,22 @@ purge:	clean
 target:	mpath_dir
 ifneq ($(IS_LOCAL),)
 	@echo checking for valid TARGET
-	[ -n "$(TARGET)" ] && [ -d $(TARGET) ]
+	@[ -n "$(TARGET)" ] && [ -d $(TARGET) ]
 endif
-	if [ -f $@ ] && [ "$$(cat $@)" != $(CURRENT) ]; then :>need_clean; fi
-	echo -n $(CURRENT) >$@
+	@if [ -f $@ ] && [ "$$(cat $@)" != $(CURRENT) ]; then \
+		echo updating target=$(TARGET); \
+		:>need_clean; \
+		echo -n $(CURRENT) >$@; \
+	fi
 
 clean: img
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) clean
 
-img-clean:	build-clean
+img-clean:	clean
 	rm -f target
 
-$(TARGET)/image-id:
+$(TARGET)/image-id: $(TARGET)/Dockerfile
 ifeq ($(IS_LOCAL),)
 	$(DOCKER) pull $(TARGET)
 else
@@ -76,8 +81,9 @@ endif
 
 img:	$(TARGET)/image-id
 
-build:	img
-	if [ -e need_clean ]; then make build-clean; rm -f need_clean; fi
+build:	target img
+	echo need*
+	if [ -e need_clean ]; then make clean; rm -f need_clean; fi
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS)
 
