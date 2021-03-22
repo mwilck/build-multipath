@@ -50,9 +50,7 @@ endif
 		echo -n $(CURRENT) >$@; \
 	fi
 
-clean: img
-	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
-		$(IMAGE) $(BUILDFLAGS) clean
+clean:	m-clean
 
 img-clean:	clean
 	rm -f target
@@ -102,3 +100,8 @@ install:	build
 
 shell:	img
 	$(DOCKER) run -it --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) --entrypoint=/bin/sh $(IMAGE)
+
+# This allows running any target with make; type "make m-clean" for running "make clean"
+# in the container
+m-%:	img
+	$(DOCKER) run -it --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) $(IMAGE) $(@:m-%=%)
