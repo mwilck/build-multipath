@@ -26,8 +26,9 @@ DOCKER_OPTS += --name multipath-build-$(TARGET)
 CURRENT = $(MPATH_DIR):$(TARGET)
 IS_LOCAL = $(patsubst registry.%,,$(TARGET))
 IMAGE = $(if $(IS_LOCAL),multipath-build-$(TARGET),$(TARGET))
+RUNNER = $(if $(IS_LOCAL),multipath-run-$(TARGET),$(TARGET))
 
-.PHONY:	img build clean test install mpath_dir purge build-clean target
+.PHONY:	img build clean test install mpath_dir purge build-clean target run-test
 
 default:	test
 
@@ -80,7 +81,6 @@ endif
 img:	$(TARGET)/image-id
 
 build:	target img
-	echo need*
 	if [ -e need_clean ]; then make clean; rm -f need_clean; fi
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS)
@@ -88,9 +88,23 @@ build:	target img
 test.clean:	build
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) tests.clean test
-test:	build
+
+test-progs:	build
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
+		$(IMAGE) $(BUILDFLAGS) $@
+
+$(TARGET)/runner-id:	$(TARGET)/Runnerfile
+	$(DOCKER) build --tag $(RUNNER) -f $^
+	$(DOCKER) image inspect --format '{{.ID}}' $(RUNNER) >$@
+
+test:	test-progs $(if $(wildcard $(TARGET)/Runnerfile), $(TARGET)/runner-id)
+ifeq ($(wildcard $(TARGET)/Runnerfile),)
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) test
+else
+	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
+		$(RUNNER)
+endif
 
 install:	build
 	[ -n "$(DESTDIR)" ]
