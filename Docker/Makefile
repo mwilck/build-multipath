@@ -93,12 +93,12 @@ test-progs:	build
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) $@
 
-$(TARGET)/runner-id:	$(TARGET)/Runnerfile
+$(TARGET)/runner-id:	$(TARGET)/Runner/Dockerfile
 	$(DOCKER) build --tag $(RUNNER) -f $^
 	$(DOCKER) image inspect --format '{{.ID}}' $(RUNNER) >$@
 
-test:	test-progs $(if $(wildcard $(TARGET)/Runnerfile), $(TARGET)/runner-id)
-ifeq ($(wildcard $(TARGET)/Runnerfile),)
+test:	test-progs $(if $(wildcard $(TARGET)/Runner/Dockerfile), $(TARGET)/runner-id)
+ifeq ($(wildcard $(TARGET)/Runner/Dockerfile),)
 	$(DOCKER) run --rm $(DOCKER_OPTS) -v $(MPATH_DIR):$(CNTDIR) \
 		$(IMAGE) $(BUILDFLAGS) test
 else
