@@ -1,0 +1,27 @@
+name: create images for compilation
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  docker:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        os: [buster]
+        arch: ['', '-i386', '-ppc64le', '-aarch64']
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./Docker/${{ matrix.os }}${{ matrix.arch}}
+          push: true
+          tags: mwilck/multipath-build-${{ matrix.os }}${{ matrix.arch}}:latest
