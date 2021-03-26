@@ -28,7 +28,7 @@ IS_LOCAL = $(patsubst registry.%,,$(TARGET))
 IMAGE = $(if $(IS_LOCAL),multipath-build-$(TARGET),$(TARGET))
 RUNNER = $(if $(IS_LOCAL),multipath-run-$(TARGET),$(TARGET))
 
-.PHONY:	img build clean test install mpath_dir purge build-clean target run-test
+.PHONY:	img build clean test install mpath_dir purge build-clean target run-test check-images
 
 default:	test
 
@@ -78,7 +78,14 @@ endif
 	$(DOCKER) image inspect --format '{{.ID}}' $(IMAGE) >$@
 endif
 
-img:	$(TARGET)/image-id
+check-images: target
+	# verify that the image is available
+	$(DOCKER) image inspect --format '{{ .RepoTags }}' $(file <$(TARGET)/image-id) || rm -rf $(TARGET)/image-id
+ifneq ($(wildcard $(TARGET)/Runner/Dockerfile),)
+	$(DOCKER) image inspect --format '{{ .RepoTags }}' $(TARGET)/runner-id || rm -rf $(TARGET)/image-id
+endif
+
+img:	check-images $(TARGET)/image-id
 
 build:	target img
 	if [ -e need_clean ]; then make clean; rm -f need_clean; fi
