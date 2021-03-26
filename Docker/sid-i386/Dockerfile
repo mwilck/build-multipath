@@ -4,7 +4,7 @@
 FROM i386/debian:sid
 RUN apt-get update
 RUN apt-get install --yes -o APT::Immediate-Configure=0 \
-    	    gcc make perl-base pkg-config \
+    	    gcc clang make perl-base pkg-config \
     	    libdevmapper-dev \
 	    libreadline-dev \
 	    libaio-dev \
