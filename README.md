@@ -1,11 +1,21 @@
-# build-multipath - files for multipath-tools CI
+# build-multipath - helpers for multipath-tools CI
 
 Scripts and helpers for building multipath-tools and running the CI.
 Work in progress.
 
-## Docker
+## Github workflows
 
-Run all commands below in the `Docker` subdirectory.
+The project contains workflows that build a subset of the containers defined
+in this repository and upload them to [docker hub](https://hub.docker.com/u/mwilck).
+The containers are named `mwilck/multipath-build-$os-$arch` and
+`mwilck/multipath-run-$os-$arch` (see "foreign architectures") below).
+They are used by CI workflows on the
+[openSUSE multipath-tools repository](https://github.com/mwilck/multipath-tools/actions).
+
+## Containers (docker, podman)
+
+Run all commands below in the `Docker` subdirectory. Both `podman` and
+`docker` container runtimes are supported.
 
 Basic usage:
 
@@ -28,28 +38,52 @@ using comands like `make` and `make clean`.
 ### make targets
 
  * test: build and run unit tests. This is the default target.
+ * test-progs: build libraries, commands, and unit tests, but don't run the
+   tests.
  * img: build the docker image.
  * build: build multipath-tools.
- * build-clean: run `make clean`.
  * install: run `make install`. `DESTDIR` must be set when invoked.
- * clean: run `make clean`, and forget current settings.
+ * clean: run `make clean`.
+ * img-clean: run `make clean`, and forget current settings.
  * purge: remove current image from local docker storage.
 
-### Using containers from a registry
+Furthermore, every defined "make" target from the multipath-tools Makefile can
+be built by prepending it with `m-`; e.g. `make m-tests.clean` runs `make
+tests.clean` in the container (this is useful if you want to re-run the
+tests).
 
-If the `TARGET` name starts with `registry.`, building the container image
-will not be attempted. Rather, the given image will be pulled from a registry.
-Example:
+**Note:** Makefile logic tries to ensure that if `TARGET` is changed, the
+complete sources are rebuilt. But sometimes this fails. In this case, running
+`make clean; make` usually fixes the issue.
 
-    TARGET=registry.suse.de/some/project/images/sle-15-sp1/containers/multipath-build
+### Environment variables for building
+
+To override build variables like `CC` or `OPTFLAGS` in the container, you have
+to set the environment variable `BUILDFLAGS` on the host:
+
+```
+make 'BUILFLAGS="CC=clang OPTFLAGS="-O0 -g"'
+```
 
 ### Using locally built containers
 
-If `TARGET` doesn't start with `registry.`, it must be the name of a
+Unless `TARGET` starts with "`registry.`" or "`docker.io`", it must be the name of a
 subdirectory of `Docker`, usually a nickname of a distribution, containing
 a Dockerfile. The Dockerfile should create an environment suitable for
 building `multipath-tools`. See existing Dockerfiles for examples.
 The built container image will be called `multipath-build-$TARGET`.
+
+### Using containers from a registry
+
+If the `TARGET` name starts with `registry.` or `docker.io/`, building the container image
+will not be attempted. Rather, the given image will be pulled from a registry.
+Example:
+
+    TARGET=registry.suse.de/some/project/images/sle-15-sp1/containers/multipath-build
+	TARGET=docker.io/mwilck/multipath-build-alpine
+
+Note that multipath build will fail if the downloaded containers don't include all
+necessary dependencies.
 
 ### Note on SUSE Linux Enterprise (SLE) containers
 
@@ -69,4 +103,16 @@ a registered SLE system into the respective subdirectory before building
 the image. The registered system must have the required additional
 modules enabled (see the distribution's Dockerfile).
 
+## Foreign architectures (ppc64le, aarch64, s390x)
 
+The containers in this repository are designed to be run on Intel-compatible
+platforms (`x86_64` architecture). For some distributions, other architectures
+are supported as well. In this case, the unit tests are run in a special
+container called `multipath-run-$os-$arch`. This container is built from
+another Dockerfile stored under `$(TARGET)/Runner`. The container includes
+an emulator (usually `qemu-user-static` for emulating the target architecture), and
+is otherwise a native environment for the target architecture including the
+run-time dependencies for multipath-tools. Currently, containers built
+this way are not used for the build process itself, only for running the
+tests. The build containers use cross-compilation instead, utilizig Debian's
+multiarch cross-compilation features.
