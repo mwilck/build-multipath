@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 FROM alpine:latest
-RUN apk add make perl gcc cmocka \
+RUN apk add make perl gcc clang cmocka \
     musl-dev lvm2-dev libaio-dev readline-dev ncurses-dev eudev-dev \
     userspace-rcu-dev json-c-dev cmocka-dev
 VOLUME /build
