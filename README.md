@@ -3,6 +3,14 @@
 Scripts and helpers for building multipath-tools and running the CI.
 Work in progress.
 
+## License
+
+Copyright (c) 2021 Martin Wilck, SUSE LLC
+
+All files in this project are licensed under the [GNU General Public License
+v2.0](COPYING), or any later version. **THE CODE IS PROVIDED WITHOUT WARRANTY OF ANY
+KIND**. Refer to the license text for details.
+
 ## Github workflows
 
 The project contains workflows that build a subset of the containers defined
