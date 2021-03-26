@@ -20,11 +20,12 @@ ifeq ($(DOCKER),podman)
 DOCKER_OPTS := --userns=keep-id
 endif
 endif
-DOCKER_OPTS += --name multipath-build-$(TARGET)
+DOCKER_OPTS += --name multipath-build-$(shell basename $(TARGET))
 
 # Don'c change these
 CURRENT = $(MPATH_DIR):$(TARGET)
-IS_LOCAL = $(patsubst registry.%,,$(TARGET))
+# IS_LOCAL is non-empty if $TARGET contains either docker.io/ or registry.
+IS_LOCAL = $(patsubst docker.io/%,,$(patsubst registry.%,,$(TARGET)))
 IMAGE = $(if $(IS_LOCAL),multipath-build-$(TARGET),$(TARGET))
 RUNNER = $(if $(IS_LOCAL),multipath-run-$(TARGET),$(TARGET))
 
@@ -38,10 +39,11 @@ mpath_dir:
 
 purge:	clean
 	$(DOCKER) image rm $(IMAGE)
-	rm $(TARGET)/image-id
+	rm -f $(TARGET)/image-id
 
 target:	mpath_dir
 ifneq ($(IS_LOCAL),)
+	echo $(IS_LOCAL)
 	@echo checking for valid TARGET
 	@[ -n "$(TARGET)" ] && [ -d $(TARGET) ]
 endif
@@ -57,9 +59,7 @@ img-clean:	clean
 	rm -f target
 
 $(TARGET)/image-id: $(TARGET)/Dockerfile
-ifeq ($(IS_LOCAL),)
-	$(DOCKER) pull $(TARGET)
-else
+ifneq ($(IS_LOCAL),)
 ifeq ($(wildcard $(TARGET)/SUSEConnect),)
 	cd $(TARGET) && $(DOCKER) build -t $(IMAGE) .
 else
@@ -79,13 +79,21 @@ endif
 endif
 
 check-images: target
+ifneq ($(IS_LOCAL),)
 	# verify that the image is available
 	$(DOCKER) image inspect --format '{{ .RepoTags }}' $(file <$(TARGET)/image-id) || rm -rf $(TARGET)/image-id
 ifneq ($(wildcard $(TARGET)/Runner/Dockerfile),)
 	$(DOCKER) image inspect --format '{{ .RepoTags }}' $(TARGET)/runner-id || rm -rf $(TARGET)/image-id
 endif
+endif
 
+ifeq ($(IS_LOCAL),)
+img:
+	$(DOCKER) inspect --format '{{ .RepoTags }}' $(TARGET) || \
+	$(DOCKER) pull $(TARGET)
+else
 img:	check-images $(TARGET)/image-id
+endif
 
 build:	target img
 	if [ -e need_clean ]; then make clean; rm -f need_clean; fi
