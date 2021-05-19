@@ -4,8 +4,12 @@
 # Set these to the multipath-tools source directory
 # and to the target (build container aka subdir) to use
 # The values will be remembered in the file "target"
-MPATH_DIR := $(shell [ -f target ] && sed 's/:.*$$//' target)
-TARGET := $(shell [ -f target ] && sed 's/^.*://' target)
+
+ifneq ($(wildcard target),)
+MPATH_DIR := $(shell cut -d: -f1 target)
+TARGET := $(shell cut -d: -f2 target)
+ARCH := $(shell cut -d: -f3 target)
+endif
 
 BUILDFLAGS += $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
 DOCKER := $(shell (which docker || which podman || echo NO-DOCKER) | sed 's,.*/,,')
