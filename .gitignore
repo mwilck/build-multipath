@@ -6,6 +6,6 @@ need_clean
 target
 SCCcredentials
 SUSEConnect
-image-id
-runner-id
+image-id*
+runner-id*
 
