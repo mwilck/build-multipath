@@ -19,7 +19,7 @@ VOLUME /build
 RUN apt-get install --yes wget xz-utils cmake
 
 WORKDIR /tmp
-RUN wget -q https://cmocka.org/files/1.0/cmocka-1.0.1.tar.xz
+RUN wget --no-check-certificate -q https://cmocka.org/files/1.0/cmocka-1.0.1.tar.xz
 RUN tar xfJ cmocka-1.0.1.tar.xz
 
 WORKDIR /tmp/cmocka-1.0.1
