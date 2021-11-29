@@ -11,7 +11,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN=true
 RUN debconf-set-selections /tmp/tzdata.txt
 RUN apt-get update
 RUN apt-get install --yes \
-    	    gcc make perl-base pkg-config \
+    	    gcc make pkg-config \
     	    libdevmapper-dev \
 	    libreadline-dev \
 	    libaio-dev \

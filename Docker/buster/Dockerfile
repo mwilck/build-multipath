@@ -4,7 +4,7 @@
 FROM debian:buster
 RUN apt-get update
 RUN apt-get install --yes \
-    	    gcc clang make perl-base pkg-config \
+    	    gcc clang make pkg-config \
     	    libdevmapper-dev \
 	    libreadline-dev \
 	    libaio-dev \

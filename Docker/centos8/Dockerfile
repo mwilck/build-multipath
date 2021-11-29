@@ -7,7 +7,7 @@ RUN dnf install -y \
     'dnf-command(config-manager)'
 RUN dnf config-manager --set-enabled powertools
 RUN dnf install -y \
-    make perl gcc pkgconfig \
+    make gcc pkgconfig \
     libaio-devel \
     device-mapper-devel \
     libselinux-devel \

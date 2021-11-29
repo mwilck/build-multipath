@@ -3,7 +3,7 @@
 
 FROM archlinux:base
 RUN pacman -Sy --noconfirm \
-    make perl gcc pkgconfig \
+    make gcc pkgconfig \
     libaio \
     device-mapper \
     json-c \

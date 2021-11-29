@@ -3,7 +3,7 @@
 
 FROM fedora:latest
 RUN dnf install -y \
-    make perl gcc pkgconfig \
+    make clang gcc pkgconfig \
     libaio-devel \
     device-mapper-devel \
     libselinux-devel \

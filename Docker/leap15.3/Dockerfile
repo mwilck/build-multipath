@@ -4,7 +4,7 @@
 FROM opensuse/leap:15.3
 RUN zypper -n --gpg-auto-import-keys \
      install --no-recommends \
-    	   make gcc perl-base \
+    	   make gcc \
 	   gzip gawk \
 	   libaio-devel \
 	   device-mapper-devel \

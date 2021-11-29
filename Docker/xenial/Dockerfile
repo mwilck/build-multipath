@@ -4,7 +4,7 @@
 FROM ubuntu:xenial
 RUN apt-get update
 RUN apt-get install --yes \
-    	    gcc make perl-base pkg-config \
+    	    gcc make pkg-config \
     	    libdevmapper-dev \
 	    libreadline-dev \
 	    libaio-dev \

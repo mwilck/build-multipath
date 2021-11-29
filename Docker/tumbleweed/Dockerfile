@@ -4,7 +4,7 @@
 FROM opensuse/tumbleweed:latest
 RUN zypper -n --gpg-auto-import-keys \
      install --no-recommends \
-    	   make gcc11 perl-base \
+    	   make gcc11 \
 	   gzip gawk \
 	   libaio-devel \
 	   device-mapper-devel \

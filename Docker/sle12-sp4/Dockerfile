@@ -21,7 +21,7 @@ RUN --mount=type=secret,id=SUSEConnect,required \
     --mount=type=secret,id=SCCcredentials,required \
      zypper -n --gpg-auto-import-keys --no-refresh \
      install --no-recommends --oldpackage --force-resolution \
-    	   make gcc perl-base \
+    	   make gcc \
 	   gzip gawk \
 	   libaio-devel \
 	   device-mapper-devel \

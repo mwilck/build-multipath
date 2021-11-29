@@ -5,7 +5,7 @@ FROM centos:centos7
 RUN yum install -y \
     epel-release
 RUN yum install -y \
-    make perl gcc pkgconfig \
+    make gcc pkgconfig \
     libaio-devel \
     device-mapper-devel \
     libselinux-devel \

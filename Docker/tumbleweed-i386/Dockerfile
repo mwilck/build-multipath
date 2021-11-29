@@ -11,7 +11,7 @@ FROM i386/tumbleweed:latest
 RUN echo 'arch = i586' >>/etc/zypp/zypp.conf
 RUN zypper -n --gpg-auto-import-keys \
      install --no-recommends \
-    	   make gcc11 perl-base \
+    	   make gcc11 \
 	   gzip gawk \
 	   libaio-devel \
 	   device-mapper-devel \
