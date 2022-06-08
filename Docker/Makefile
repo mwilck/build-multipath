@@ -11,8 +11,9 @@ TARGET := $(shell cut -d: -f2 target)
 ARCH := $(shell cut -d: -f3 target)
 endif
 
-BUILDFLAGS += $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
 DOCKER := $(shell (which docker || which podman || echo NO-DOCKER) | sed 's,.*/,,')
+EXTRAVERSION := $(shell rev=$$(GIT_DIR=$(MPATH_DIR)/.git git rev-parse --short=7 HEAD 2>/dev/null); echo $${rev:+-g$$rev})
+BUILDFLAGS += EXTRAVERSION=$(EXTRAVERSION) $(if $(patsubst centos7,,$(TARGET)),-j4 -O,-j4)
 CNTDIR := /build
 
 
