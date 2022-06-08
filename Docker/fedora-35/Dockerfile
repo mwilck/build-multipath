@@ -1,7 +1,7 @@
 # Copyright (c) 2020 SUSE LLC
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-FROM fedora:34
+FROM fedora:35
 RUN dnf install -y \
     make gcc clang pkgconfig \
     libaio-devel \
