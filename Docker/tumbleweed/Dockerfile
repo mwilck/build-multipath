@@ -4,7 +4,7 @@
 FROM opensuse/tumbleweed:latest
 RUN zypper -n --gpg-auto-import-keys \
      install --no-recommends \
-    	   make gcc11 \
+    	   make gcc12 \
 	   gzip gawk \
 	   libaio-devel \
 	   device-mapper-devel \
@@ -17,5 +17,5 @@ RUN zypper -n --gpg-auto-import-keys \
 	   
 VOLUME /build
 WORKDIR /build
-ENV CC=gcc-11
+ENV CC=gcc-12
 ENTRYPOINT ["make"]
