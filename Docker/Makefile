@@ -37,7 +37,7 @@ _ARCH := $(if $(ARCH),-$(ARCH),)
 SUFFIX := $(TARGET)$(_ARCH)
 IMAGE-ID := image-id$(_ARCH)
 RUNNER-ID := runner-id$(_ARCH)
-# IS_LOCAL is non-empty if $TARGET contains either docker.io/ or registry.
+# IS_LOCAL is non-empty if $TARGET contains neither docker.io/ nor registry.
 IS_LOCAL = $(patsubst docker.io/%,,$(patsubst registry.%,,$(TARGET)))
 IMAGE = $(if $(IS_LOCAL),multipath-build-$(SUFFIX),$(TARGET))
 RUNNER = $(if $(IS_LOCAL),multipath-run-$(SUFFIX),$(TARGET))
