@@ -83,13 +83,14 @@ else
 # Special case for SLE - normal docker/podman build doesn't work, because
 # SLE secrets need to be pulled in.
 # We need buildkit for docker or we must use a buildah shell script
-ifeq ($(DOCKER),docker)
+ifeq ($(notdir $(DOCKER)),docker)
 	cd $(TARGET) && \
 		DOCKER_BUILDKIT=1 $(DOCKER) build $(BUILD_OPTS) -t $(IMAGE) \
 			--secret id=SUSEConnect,src=SUSEConnect \
 			--secret id=SCCcredentials,src=SCCcredentials
 else
-ifeq ($(DOCKER),podman)
+ifeq ($(notdir $(DOCKER)),podman)
+	echo pod
 	cd $(TARGET) && \
 		BUILD_OPTS=$(BUILD_OPTS) ./buildah.sh $(IMAGE)
 endif
