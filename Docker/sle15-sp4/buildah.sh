@@ -18,7 +18,6 @@ buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect
 	   libaio-devel \
 	   device-mapper-devel \
 	   libjson-c-devel \
-	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
 	   systemd-devel \

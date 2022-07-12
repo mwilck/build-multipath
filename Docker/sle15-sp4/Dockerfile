@@ -20,7 +20,6 @@ RUN --mount=type=secret,id=SUSEConnect,required \
 	   libaio-devel \
 	   device-mapper-devel \
 	   libjson-c-devel \
-	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
 	   systemd-devel \

@@ -9,7 +9,6 @@ RUN zypper -n --gpg-auto-import-keys \
 	   libaio-devel \
 	   device-mapper-devel \
 	   libjson-c-devel \
-	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
 	   systemd-devel \
