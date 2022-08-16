@@ -6,13 +6,11 @@ RUN apt-get update
 RUN apt-get install --yes \
     	    gcc clang make pkg-config \
     	    libdevmapper-dev \
-	    libreadline-dev \
+	    libreadline-gplv2-dev \
 	    libaio-dev \
 	    libudev-dev \
 	    libjson-c-dev \
 	    liburcu-dev \
-	    libedit-dev
-RUN apt-get install --yes \
     	    libsystemd-dev
 VOLUME /build
 
