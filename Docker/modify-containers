@@ -2,9 +2,11 @@
 
 trap 'echo error in $BASH_COMMAND >&2; exit 1' ERR
 set -E
-# jessie stretch sid
-DISTS=(buster bullseye)
-ARCHS=(ppc64le s390x aarch64)
+
+#DISTS=(buster bullseye)
+DISTS=(fedora-36)
+#ARCHS=(ppc64le s390x aarch64)
+ARCHS=("")
 
 case $1 in
     src)
@@ -28,18 +30,29 @@ modify() {
 	buster|bullseye|focal|jessie|bionic|sid|xenial)
 	    case $ARCH in
 		ppc64le)
-		    ARCHX=ppc64el;;
+		    ARCHX=":ppc64el";;
 		aarch64)
-		    ARCHX=arm64;;
+		    ARCHX=":arm64";;
+		"")
+		    ARCHX=;;
 		*)
-		    ARCHX=$ARCH;;
+		    ARCHX=":$ARCH";;
 	    esac
 	    CMD=/usr/bin/apt-get
-	    ARGS=(install --yes $PKG:$ARCHX)
+	    ARGS=(install --yes $PKG$ARCHX)
+	    ;;
+	fedora-*)
+	    case $PKG in
+		*-dev)
+		    # -dev -> -devel
+		    PKG=${PKG}el;;
+	    esac
+	    CMD=/usr/bin/dnf
+	    ARGS=(-y install $PKG)
 	    ;;
     esac
 
-    CNT=$BASE-$OS-$ARCH
+    CNT=$BASE-$OS${ARCH:+-$ARCH}
     podman run --name $CNT -it --entrypoint=$CMD $REG/$CNT "${ARGS[@]}"
     podman commit $CNT $CNT
     podman push $CNT $REG/$CNT
@@ -47,8 +60,8 @@ modify() {
     podman image rm $CNT
 }
 
-for OS in ${DISTS[@]}; do
-    for ARCH in ${ARCHS[@]}; do
+for OS in "${DISTS[@]}"; do
+    for ARCH in "${ARCHS[@]}"; do
 	echo === $BASE $OS $ARCH $PKG === >&2
 	modify $OS $ARCH
     done
