@@ -21,6 +21,7 @@ buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect
 	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
+	   libedit-devel \
 	   systemd-devel \
 	   libcmocka-devel
 buildah run "$WORK" zypper clean --all

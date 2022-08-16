@@ -9,6 +9,7 @@ RUN apt-get build-dep --yes -a s390x multipath-tools
 RUN apt-get install --yes \
 	gcc-s390x-linux-gnu \
 	libjson-c-dev:s390x \
+	libedit-dev:s390x \
 	libcmocka-dev:s390x
 RUN apt-get clean
 VOLUME /build

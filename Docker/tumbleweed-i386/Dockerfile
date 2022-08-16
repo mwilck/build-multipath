@@ -19,6 +19,7 @@ RUN zypper -n --gpg-auto-import-keys \
 	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
+	   libedit-devel \
 	   systemd-devel \
 	   libcmocka-devel
 	   

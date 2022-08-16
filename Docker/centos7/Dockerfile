@@ -14,6 +14,7 @@ RUN yum install -y \
     ncurses-devel \
     userspace-rcu-devel \
     json-c-devel \
+    linedit-devel \
     libcmocka-devel
 RUN yum clean all
 VOLUME /build

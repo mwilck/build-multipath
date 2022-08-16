@@ -19,6 +19,7 @@ RUN apt-get install --yes \
 	    libjson-c-dev \
 	    liburcu-dev \
 	    libcmocka-dev \
+	    libedit-dev \
 	    libsystemd-dev
 RUN apt-get clean
 VOLUME /build

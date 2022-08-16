@@ -12,6 +12,7 @@ RUN dnf install -y \
     ncurses-devel \
     userspace-rcu-devel \
     json-c-devel \
+    libedit-devel \
     libcmocka-devel
 RUN yum clean all
 VOLUME /build

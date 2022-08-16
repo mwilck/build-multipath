@@ -23,6 +23,7 @@ RUN --mount=type=secret,id=SUSEConnect,required \
 	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
+	   libedit-devel \
 	   systemd-devel \
 	   libcmocka-devel
 	   

@@ -10,7 +10,8 @@ RUN apt-get install --yes \
 	    libaio-dev \
 	    libudev-dev \
 	    libjson-c-dev \
-	    liburcu-dev
+	    liburcu-dev \
+	    libedit-dev
 RUN apt-get install --yes \
     	    libsystemd-dev
 VOLUME /build

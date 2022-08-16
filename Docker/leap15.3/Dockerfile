@@ -13,6 +13,7 @@ RUN zypper -n --gpg-auto-import-keys \
 	   liburcu-devel \
 	   readline-devel \
 	   systemd-devel \
+	   libedit-devel \
 	   libcmocka-devel
 	   
 VOLUME /build

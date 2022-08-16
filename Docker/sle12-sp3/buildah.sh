@@ -22,6 +22,7 @@ buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect
 	   libudev-devel \
 	   liburcu-devel \
 	   readline-devel \
+	   libedit-devel \
 	   systemd-devel \
 	   cmake wget tar xz
 

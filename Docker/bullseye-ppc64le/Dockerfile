@@ -9,6 +9,7 @@ RUN apt-get build-dep --yes -a ppc64el multipath-tools
 RUN apt-get install --yes \
 	gcc-powerpc64le-linux-gnu \
 	libjson-c-dev:ppc64el \
+	libedit-dev:ppc64el \
 	libcmocka-dev:ppc64el
 RUN apt-get clean
 VOLUME /build

@@ -9,6 +9,7 @@ RUN apt-get build-dep --yes -a arm64 multipath-tools
 RUN apt-get install --yes \
 	gcc-aarch64-linux-gnu \
 	libjson-c-dev:arm64 \
+	libedit-dev:arm64 \
 	libcmocka-dev:arm64
 RUN apt-get clean
 VOLUME /build

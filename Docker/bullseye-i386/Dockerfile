@@ -11,7 +11,8 @@ RUN apt-get install --yes \
 	    libudev-dev \
 	    libjson-c-dev \
 	    liburcu-dev \
-	    libcmocka-dev
+	    libcmocka-dev \
+	    libedit-dev
 RUN apt-get clean
 VOLUME /build
 WORKDIR /build

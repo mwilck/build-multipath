@@ -12,8 +12,12 @@ RUN zypper -n --gpg-auto-import-keys \
 	   liburcu-devel \
 	   readline-devel \
 	   systemd-devel \
+	   libedit-devel \
 	   libcmocka-devel
-	   
+
+RUN zypper -n --gpg-auto-import-keys \
+     install --no-recommends \
+     strace
 VOLUME /build
 WORKDIR /build
 ENTRYPOINT ["make"]
