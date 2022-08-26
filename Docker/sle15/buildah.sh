@@ -28,9 +28,9 @@ buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect
 buildah config --env "ADDITIONAL_MODULES-" "$WORK"
 buildah config --volume /build "$WORK"
 buildah config --workingdir /build "$WORK"
-buildah run "$WORK" wget -q https://cmocka.org/files/1.1/cmocka-1.1.1.tar.xz
-buildah run "$WORK" tar xfvJ cmocka-1.1.1.tar.xz
-buildah config --workingdir /build/cmocka-1.1.1/build "$WORK"
+buildah run "$WORK" wget -q https://cmocka.org/files/1.1/cmocka-1.1.5.tar.xz
+buildah run "$WORK" tar xfvJ cmocka-1.1.5.tar.xz
+buildah config --workingdir /build/cmocka-1.1.5/build "$WORK"
 buildah run "$WORK" cmake -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DLIB_INSTALL_DIR:PATH=/usr/lib64 \
@@ -38,7 +38,7 @@ buildah run "$WORK" cmake -DCMAKE_INSTALL_PREFIX=/usr \
 buildah run "$WORK" make
 buildah run "$WORK" make install
 buildah config --workingdir /build "$WORK"
-buildah run "$WORK" rm -rf cmocka-1.1.1.tar.xz cmocka-1.1.1
+buildah run "$WORK" rm -rf cmocka-1.1.5.tar.xz cmocka-1.1.5
 buildah run "$WORK" \
 	 zypper -n --no-refresh --no-remote remove \
 	    libmetalink3 librhash0 libuv1 libarchive13 libcares2 python3-base \

@@ -40,12 +40,12 @@ RUN --mount=type=secret,id=SUSEConnect,required \
      	    cmake wget tar xz
 
 WORKDIR /tmp
-RUN wget -q https://cmocka.org/files/1.1/cmocka-1.1.1.tar.xz
-RUN tar xfvJ cmocka-1.1.1.tar.xz
-WORKDIR /tmp/cmocka-1.1.1
+RUN wget -q https://cmocka.org/files/1.1/cmocka-1.1.5.tar.xz
+RUN tar xfvJ cmocka-1.1.5.tar.xz
+WORKDIR /tmp/cmocka-1.1.5
 RUN mkdir build
 RUN rm -f CMakeCache.txt
-WORKDIR /tmp/cmocka-1.1.1/build
+WORKDIR /tmp/cmocka-1.1.5/build
 RUN cmake -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DLIB_INSTALL_DIR:PATH=/usr/lib64 \
