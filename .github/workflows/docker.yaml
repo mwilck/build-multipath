@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        os: [buster, jessie, bullseye, fedora-36]
+        os: [buster, jessie, bullseye, fedora-37]
         arch: ['', '-i386']
         exclude:
-          - os: fedora-36
+          - os: fedora-37
             arch: '-i386'
 
     steps:
