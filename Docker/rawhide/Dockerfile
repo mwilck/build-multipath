@@ -13,8 +13,11 @@ RUN dnf install -y \
     userspace-rcu-devel \
     json-c-devel \
     libedit-devel \
-    libcmocka-devel
+    libcmocka-devel \
+    musl-devel \
+    musl-gcc
 RUN yum clean all
+RUN sed -i '/-isystem/s,$, -isystem /usr/include,' /usr/x86_64-linux-musl/lib64/musl-gcc.specs
 VOLUME /build
 WORKDIR /build
 ENTRYPOINT ["make"]
