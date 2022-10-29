@@ -5,7 +5,7 @@ NAME=$1
 BASE="registry.suse.com/suse/sle15:15.4.27.8.1"
 ADDONS="sle-module-development-tools,PackageHub"
 set -x
-WORK=$(buildah from "$BASE")
+WORK=$(buildah from $BUILD_OPTS "$BASE")
 echo working on "$WORK" >&2
 buildah config --env "ADDITIONAL_MODULES=$ADDONS" "$WORK"
 buildah  run --mount=type=bind,src=$PWD/SUSEConnect,dst=/run/secrets/SUSEConnect \
