@@ -90,9 +90,8 @@ ifeq ($(notdir $(DOCKER)),docker)
 			--secret id=SCCcredentials,src=SCCcredentials
 else
 ifeq ($(notdir $(DOCKER)),podman)
-	echo pod
 	cd $(TARGET) && \
-		BUILD_OPTS=$(BUILD_OPTS) ./buildah.sh $(IMAGE)
+		BUILD_OPTS="$(BUILD_OPTS)" ./buildah.sh $(IMAGE)
 endif
 endif
 endif
@@ -102,8 +101,10 @@ endif
 check-images: target
 ifneq ($(IS_LOCAL),)
 	# verify that the image is available
+	[ -f $(TARGET)/$(IMAGE-ID) ] && \
 	$(DOCKER) image inspect --format '{{ .RepoTags }}' $(file <$(TARGET)/$(IMAGE-ID)) || rm -rf $(TARGET)/$(IMAGE-ID)
 ifneq ($(wildcard $(TARGET)/Runner/Dockerfile),)
+	[ -f $(TARGET)/$(IMAGE-ID) ] && \
 	$(DOCKER) image inspect --format '{{ .RepoTags }}' $(TARGET)/$(RUNNER-ID) || rm -rf $(TARGET)/$(IMAGE-ID)
 endif
 endif
