@@ -1,5 +1,7 @@
 divert(-1)
 include(`macros.m4')
 include(`defaults.m4')
-try_include(distro`.m4')
-divert`'dnl
+try_include(DISTRO`.m4')
+ifdef(`BASE', , `define(`BASE', `DISTRO')')
+ifdef(`DEFAULT_TAG', , `define(`DEFAULT_TAG', `latest')')
+ifdef(`TAG', , `define(`TAG', `DEFAULT_TAG')')

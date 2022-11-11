@@ -1,10 +1,8 @@
-define(`base', `fedora:36')
 define(`devext', `rename($1)-devel')
-define(`INSTALL', `dnf `install' -y')
-define(`CLEAN', `RUN dnf `clean' all')
-
-# extra packages
-define(`extra_dev', `libselinux libsepol')
+define(`INSTALL', `DNF install -y')
+define(`CLEAN', `DNF clean all')
+define(`DEFAULT_TAG', `rawhide')
+define(`DNF', `dnf')
 
 # package renames
 define(`rename',
@@ -12,4 +10,5 @@ define(`rename',
 	$1, `devmapper', `device-mapper',
 	$1, `urcu', `userspace-rcu',
 	$1, `readline', `$1',
+	$1, `json-c', `$1',
 	`lib$1')')

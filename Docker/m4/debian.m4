@@ -1,8 +1,9 @@
-define(`base', `debian:buster')
+define(`DEFAULT_TAG', `bullseye')
 define(`devext', `lib$1-dev')
-define(`INSTALL', `apt-get update && apt-get install --yes')
-define(`CLEAN', `RUN apt-get clean')
-# extra packages
+define(`UPDATE', `apt-get update')
+define(`INSTALL', `apt-get install --yes')
+define(`REMOVE', `apt-get remove --yes $1 && apt-get autoremove --yes')
+define(`CLEAN', `apt-get clean')
 
 # package renames
 define(`pkgconfig', `pkg-config')

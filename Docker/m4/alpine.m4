@@ -1,4 +1,4 @@
-define(`base', `alpine:latest')
+define(`BASE', `alpine:latest')
 define(`devext', `$1-dev')
 define(`INSTALL', `apk add')
 
