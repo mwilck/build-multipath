@@ -33,12 +33,12 @@ define(`DEVEL_PKGS',
 define(CMOCKA_DEFS, `')
 define(`_BUILD_CMOCKA',
 `RUN_CMD(`INSTALL CMOCKA_DEPS')
-WDIR(`/tmp')
+WORKDIR /tmp
 RUN_CMD(`wget --no-check-certificate -q https://cmocka.org/files/patsubst(CMOCKA_VER, \([0-9]\.[0-9]\)\..*, \1)/cmocka-CMOCKA_VER.tar.xz')
 RUN_CMD(`tar xfJ cmocka-CMOCKA_VER.tar.xz && \
     mkdir -p cmocka-CMOCKA_VER/build && \
     rm -f cmocka-CMOCKA_VER/CMakeCache.txt')
-WDIR(`/tmp/cmocka-CMOCKA_VER/build')
+WORKDIR /tmp/cmocka-CMOCKA_VER/build
 RUN_CMD(`cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release CMOCKA_DEFS ..')
 RUN_CMD(`make')
 RUN_CMD(`make install')

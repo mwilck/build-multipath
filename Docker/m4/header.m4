@@ -8,5 +8,4 @@ ifdef(`TAG', , `define(`TAG', `DEFAULT_TAG')')
 define(`RUN_CMD',`ifelse($1, `', ,
 `RUN RUN_ARGS \
     $1')')
-define(`WDIR', `WORKDIR $1')
 divert`'dnl
