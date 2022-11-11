@@ -1,3 +1,4 @@
+divert(-1)
 define(`RUN_CMD',`ifelse($1, `', ,
 `buildah run RUN_ARGS \
     "$work" \
@@ -8,7 +9,10 @@ divert`'dnl
 #! /bin/sh
 # Copyright (c) 2022 SUSE LLC
 # SPDX-License-Identifier: GPL-2.0-or-later
-set -ex
+set -e
+[ $1 ] || { echo usage: $0 tag >&2; exit 1; }
+NAME=$1
+set -x
 work=$(buildah from $BUILD_OPTS "BASE:TAG")
 trap 'buildah rm "$work"' 0
 ifelse(decomma(PREINSTALL), `', , `patsubst(decomma(PREINSTALL), `ARG ', `buildah config --env ') "$work"')
@@ -21,8 +25,6 @@ BUILD_CMOCKA
 RUN_CMD(CLEAN)
 WDIR(/build)
 buildah config --env "ADDITIONAL_MODULES-" "$work"
-buildah config --entrypoint '["make"]' "$work"
 buildah config --cmd '[]' "$work"
-ID=$(buildah commit "$work" "$NAME")
-set +x
-echo $ID
+buildah config --entrypoint '["make"]' "$work"
+buildah commit "$work" "$NAME"
