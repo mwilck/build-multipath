@@ -3,6 +3,7 @@ ifdef(`SP', , `define(`SP', `sp5')')
 define(`BASE', `suse/sles12`'SP')
 define(`DEFAULT_TAG', `6.5.398')
 define(`SLE_SDK', `sle-sdk')
+define(`CMOCKA_DEPS', `cmake wget tar')
 
 # SLE12 needs udev-devel AND systemd-devel, newer has only systemd-devel
 define(`extra_dev', `systemd')
