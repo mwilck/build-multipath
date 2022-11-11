@@ -7,8 +7,4 @@ define(`PREINSTALL',
 `ARG ADDITIONAL_MODULES=SLE_SDK,PackageHub')
 define(`SECRETS', `SUSEConnect SCCcredentials')
 define(`mountarg', `--mount=type=secret,id=$1')
-define(`DF_RUN_ARGS', `map_spc(`mountarg', SECRETS)')
-define(`BD_RUN_ARGS',
-`patsubst(decomma(DF_RUN_ARGS),
-       `--mount=type=secret`,'id=\([a-zA-Z]*\)',
-       `--mount=type=bind`,'src=$PWD/\1`,'dst=/run/secrets/\1')')
+define(`RUN_ARGS', `map_spc(`mountarg', SECRETS)')

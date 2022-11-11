@@ -9,5 +9,4 @@ define(`RUN_CMD',`ifelse($1, `', ,
 `RUN RUN_ARGS \
     $1')')
 define(`WDIR', `WORKDIR $1')
-define(`RUN_ARGS', `DF_RUN_ARGS')
 divert`'dnl
