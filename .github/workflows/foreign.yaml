@@ -60,10 +60,6 @@ jobs:
       matrix:
         os:
           - bullseye
-        arch:
-          - s390x
-          - ppc64le
-          - aarch64
 
     steps:
 
@@ -82,7 +78,7 @@ jobs:
       - name: Cache Docker layers for runner
         uses: actions/cache@v2
         with:
-          path: /tmp/.runner-cache-${{ matrix.os }}-${{ matrix.arch }}
+          path: /tmp/.runner-cache-${{ matrix.os }}-multi
           key: runner-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             runner-${{ runner.os }}
@@ -92,22 +88,22 @@ jobs:
         uses: docker/setup-qemu-action@v1
         with:
           image: tonistiigi/binfmt:latest
-          platforms: ${{ matrix.arch }}
+          platforms: linux/aarch64,linux/ppc64le,linux/s390x
 
       - name: Build and push runner
         uses: docker/build-push-action@v3
         with:
-          context: ./Docker/${{ matrix.os }}-${{ matrix.arch }}/Runner
+          context: ./Docker/${{ matrix.os }}-ppc64le/Runner
           push: true
-          platforms: linux/${{ matrix.arch }}
+          platforms: linux/aarch64,linux/ppc64le,linux/s390x
           tags: mwilck/multipath-run-${{ matrix.os }}:latest
-          cache-from: type=local,src=/tmp/.runner-cache-${{ matrix.os }}-${{ matrix.arch }}
-          cache-to: type=local,dest=/tmp/.new-runner-cache-${{ matrix.os }}-${{ matrix.arch }}
+          cache-from: type=local,src=/tmp/.runner-cache-${{ matrix.os }}-multi
+          cache-to: type=local,dest=/tmp/.new-runner-cache-${{ matrix.os }}-multi
 
       - name: Move caches
         # Temp fix
         # https://github.com/docker/build-push-action/issues/252
         run: |
-          rm -rf /tmp/.runner-cache-${{ matrix.os }}-${{ matrix.arch }}
-          mv /tmp/.new-runner-cache-${{ matrix.os }}-${{ matrix.arch }} /tmp/.runner-cache-${{ matrix.os }}-${{ matrix.arch }}
+          rm -rf /tmp/.runner-cache-${{ matrix.os }}-multi
+          mv /tmp/.new-runner-cache-${{ matrix.os }}-multi /tmp/.runner-cache-${{ matrix.os }}-multi
 
