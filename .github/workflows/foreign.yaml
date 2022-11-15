@@ -63,10 +63,11 @@ jobs:
           platforms: ${{ matrix.arch }}
 
       - name: Build and push runner
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: ./Docker/${{ matrix.os }}-${{ matrix.arch }}/Runner
           push: true
+          platforms: linux/${{ matrix.arch }}
           tags: mwilck/multipath-run-${{ matrix.os }}-${{ matrix.arch }}:latest
           cache-from: type=local,src=/tmp/.runner-cache-${{ matrix.os }}-${{ matrix.arch }}
           cache-to: type=local,dest=/tmp/.new-runner-cache-${{ matrix.os }}-${{ matrix.arch }}
