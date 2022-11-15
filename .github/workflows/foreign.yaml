@@ -10,17 +10,11 @@ jobs:
     strategy:
       matrix:
         os:
-          - buster
           - bullseye
         arch:
           - s390x
           - ppc64le
           - aarch64
-        exclude:
-          - os: buster
-            arch: s390x
-          - os: buster
-            arch: ppc64le
 
     steps:
 
