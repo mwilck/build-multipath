@@ -140,6 +140,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./Docker/${{ matrix.os }}
+          secrets: |
+            "SUSEConnect=${{ secrets.SUSECONNECT }}"
+            "SCCcredentials=${{ secrets.SCCCREDENTIALS }}"
           push: true
           platforms: linux/amd64,linux/aarch64,linux/ppc64le,linux/s390x
           tags: mwilck/multipath-build-${{ matrix.os }}:latest
