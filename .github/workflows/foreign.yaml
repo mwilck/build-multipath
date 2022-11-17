@@ -144,6 +144,6 @@ jobs:
             "SUSEConnect=${{ secrets.SUSECONNECT }}"
             "SCCcredentials=${{ secrets.SCCCREDENTIALS }}"
           push: true
-          platforms: linux/amd64,linux/aarch64,linux/ppc64le,linux/s390x
+          platforms: linux/amd64
           tags: mwilck/multipath-build-${{ matrix.os }}:latest
 
