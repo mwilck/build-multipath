@@ -4,13 +4,13 @@ define(`try_include',
  	`include(`$1')',
 	`errprint(`"$1" does not exist
 ')
-	m4exit')')
+	m4exit(`1')')')
 
-# map operation on comma-separated list, ends up space-separated
+# map operation on comma-separated list, ends up separated by $2
 define(`map',
-	`ifelse($#, 0, , $#, 1, ,
-	 $#, 2, `$1($2)',
-	 `$1($2) map(`$1', shift(shift($@)))')')
+	`ifelse($#, 0, , $#, 1, , $#, 2, ,
+	 $#, 3, `$1($3)$2',
+	 `$1($3)$2map(`$1', `$2', shift(shift(shift($@))))')')
 
 # Quote commas in a comma-separated list
 # dnl decomma(a,b,c) -> a`,'b`,'c
@@ -19,16 +19,30 @@ define(`map',
 # translit(cc, `,', ;) => a (+ warning excess args)
 # translit(`cc', `,', ;) => a,b (translit does nothing -> cc -> a,b)
 # translit(decomma(cc), `,', ;) => a;b
-
 define(`decomma',
 `ifelse($#, 0, , $#, 1, `$1', `$1``,''decomma(shift($@))')')
 
 # map operation on space-separated list
-define(`map_spc', `map(`$1', translit($2, ` ', `,'))')
+define(`map_spc', `map(`$1', ` ', translit($2, ` ', `,'))')
 
 define(`BUILD_PKGS', `build_pkgs extra_build')
 define(`DEVEL_PKGS',
 `map_spc(`devext', `dev_pkgs') ifelse(extra_dev, `', , map_spc(`devext', `extra_dev'))')
+define(`_libver', lib`$1`'libver(`$1')')
+define(`RUNTIME_LIBS', `map_spc(`_libver', `dev_pkgs')')
+
+define(`RUN_CMD',`ifelse($1, `', ,
+`RUN RUN_ARGS $1')')
+define(`ENVIRONMENT', `ifelse(ENV_VARS, `', , `map(`ENV_CMD', `
+', translit(ENV_VARS, ` ', `,'))')')
+define(`ENV_CMD', `ENV $1')
+
+define(`LABELS',
+`LABEL_PREFIX
+LABEL org.opencontainers.image.title="build-PACKAGE"
+LABEL org.opencontainers.image.description="container for building PACKAGE on DISTRO/RELEASE"
+EXTRA_LABELS
+LABEL_SUFFIX')
 
 define(CMOCKA_DEFS, `')
 define(`_BUILD_CMOCKA',

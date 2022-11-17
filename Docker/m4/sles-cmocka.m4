@@ -1,6 +1,3 @@
-include(`sles.m4')
-define(`DEFAULT_TAG', `15.0.4.22.322')
-define(`build_pkgs', patsubst(build_pkgs, ` clang', `'))
 define(`dev_pkgs', patsubst(dev_pkgs, ` cmocka', `'))
 define(`CMOCKA_VER', `1.1.5')
 define(`CMOCKA_DEPS', `cmake wget tar xz')

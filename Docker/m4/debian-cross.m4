@@ -12,10 +12,7 @@ RUN sed -i ''`/deb/{p;s/^deb/deb-src/;}''` /etc/apt/sources.list')
 
 define(`UPDATE', `apt-get update && apt-get build-dep --yes -a DEBARCH PACKAGE')
 
-define(`ENVIRONMENT',
-`ENV LD=ARCHPREFIX-ld
-ENV CC=ARCHPREFIX-gcc
-ENV PKGCONFIG=ARCHPREFIX-pkg-config')
+define(`ENV_VARS', `LD=ARCHPREFIX-ld CC=ARCHPREFIX-gcc PKGCONFIG=ARCHPREFIX-pkg-config')
 
 # Architecture translations
 ifdef(`ARCH', , `define(`ARCH', `arm64')')

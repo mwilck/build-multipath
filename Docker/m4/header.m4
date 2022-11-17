@@ -1,11 +1,16 @@
 divert(-1)
+# The following macros can/should be set by the user via -D
+ifdef(`PACKAGE', , `define(`PACKAGE', `multipath')')
+ifdef(`DISTRO', , `define(`DISTRO', `debian')')
+ifdef(`RELEASE', , `define(`RELEASE', `DEFAULT_RELEASE')')
+ifdef(`TAG', , `define(`TAG', `DEFAULT_TAG')')
+ifdef(`TYPE', , `define(`TYPE', `')')
+# only needed for OBS builds
+ifdef(`VERSION', , `define(`VERSION', `0.2')')
+
 include(`macros.m4')
 include(`defaults.m4')
-try_include(DISTRO`.m4')
-ifdef(`BASE', , `define(`BASE', `DISTRO')')
-ifdef(`DEFAULT_TAG', , `define(`DEFAULT_TAG', `latest')')
-ifdef(`TAG', , `define(`TAG', `DEFAULT_TAG')')
-define(`RUN_CMD',`ifelse($1, `', ,
-`RUN RUN_ARGS \
-    $1')')
+include(PACKAGE`.m4')
+include(DISTRO`.m4')
+sinclude(DISTRO-RELEASE`.m4')
 divert`'dnl

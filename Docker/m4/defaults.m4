@@ -1,14 +1,23 @@
 # Debian (buster) package names, except for pkg-config
-define(`build_pkgs', `make gcc clang pkgconfig')
+define(`build_pkgs', `')
 define(`extra_build', `')
 # Debian (buster) package names, without "lib" prefix
-define(`dev_pkgs', `devmapper aio udev json-c urcu readline edit mount cmocka')
+define(`dev_pkgs', `')
 define(`extra_dev', `')
+# This must be defined by the distro and is only required
+# for runtime environments
+define(`libver', `errprint(`ERROR: libver is not set!
+')m4exit(`1')')')
 
-define(`PACKAGE', `multipath-tools')
 define(`PREAMBLE', `dnl')
-define(`PREINSTALL', `')
+define(`PREINSTALL', `dnl')
 define(`UPDATE', `')
 define(`RUN_ARGS', `')
 define(`CLEAN', `')
-define(`ENVIRONMENT', `')
+define(`ENV_VARS', `')
+define(`BASE', `DISTRO')
+define(`DEFAULT_RELEASE', `latest')
+define(`DEFAULT_TAG', `RELEASE')
+define(`LABEL_PREFIX', `dnl')
+define(`EXTRA_LABELS', `dnl')
+define(`LABEL_SUFFIX', `dnl')

@@ -1,5 +1,5 @@
 define(`BASE',`archlinux')
-define(`DEFAULT_TAG', `base')
+define(`DEFAULT_RELEASE', `base')
 define(`devext', `$1')
 define(`INSTALL', `pacman -Sy --noconfirm')
 

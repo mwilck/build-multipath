@@ -1,7 +1,7 @@
 define(`devext', `rename($1)-devel')
 define(`INSTALL', `DNF install -y')
 define(`CLEAN', `DNF clean all')
-define(`DEFAULT_TAG', `rawhide')
+define(`DEFAULT_RELEASE', `rawhide')
 define(`DNF', `dnf')
 
 # package renames
