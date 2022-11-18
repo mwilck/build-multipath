@@ -23,5 +23,6 @@ define(`ARCHPREFIX',
 `ifelse(ARCH, `ppc64le', `powerpc64le-linux-gnu',
 	ARCH, `arm64', `aarch64-linux-gnu',
 	ARCH, `s390x', `s390x-linux-gnu',
+	ARCH, `armhf', `arm-linux-gnueabihf',
 	`errprint(`Unsupported architecture ARCH
 ')m4exit')')
