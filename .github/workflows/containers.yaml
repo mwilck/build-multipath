@@ -104,7 +104,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.new-buildx-cache-${{ matrix.os }}
 
       - name: Build and push container (SLES)
-        if: ${{ startswith(matrix.os, 'sles') && secrets.SCCCREDENTIALS != '' }}
+        if: ${{ startswith(matrix.os, 'sles') }}
         uses: docker/build-push-action@v3
         with:
           context: ./container
