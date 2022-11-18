@@ -55,8 +55,8 @@ jobs:
           context: ./container
           push: true
           tags: >-
-            ghcr.io/mwilck/multipath-cross-${{ matrix.os }}-${{ matrix.arch }}
-            :latest
+            ghcr.io/mwilck/multipath-cross-
+            ${{ matrix.os }}-${{ matrix.arch }}:latest
           cache-from: >-
             type=local,src=/tmp/.buildx-cache-
             ${{ matrix.os }}-${{ matrix.arch }}
