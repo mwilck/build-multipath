@@ -16,6 +16,8 @@ jobs:
           - debian/sid
           - fedora/rawhide
           - opensuse/tumbleweed
+          - opensuse/leap
+          - centos/7
 
     steps:
 
@@ -33,15 +35,25 @@ jobs:
         uses: actions/checkout@v2
 
       - name: set arch list (full)
-        if: ${{ matrix.os == 'alpine' || matrix.os == 'debian/sid' }}
+        if: >
+          ${{ matrix.os == 'alpine' || matrix.os == 'debian/sid' ||
+              matrix.os == 'opensuse/tumbleweed' }}
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,
           linux/arm/v7,linux/386 >> $GITHUB_ENV
 
       - name: set arch list (64bit)
-        if: ${{ matrix.os == 'fedora/rawhide' }}
+        if: >
+          ${{ matrix.os == 'fedora/rawhide' ||
+              startswith(matrix.os) == 'opensuse/leap' }}
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
+           >> $GITHUB_ENV
+
+      - name: set arch list (centos7)
+        if: ${{ matrix.os == 'centos/7' }}
+        run: >-
+          echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/386
            >> $GITHUB_ENV
 
       - name: Set up QEMU
