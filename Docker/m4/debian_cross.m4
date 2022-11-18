@@ -6,9 +6,10 @@ define(`devext', `lib$1-dev:DEBARCH')
 define(`build_pkgs', `gcc-ARCHPREFIX')
 define(`dev_pkgs', `json-c edit cmocka mount')
 
+define(`ADD_DEBSRC', `RUN sed -i ''`/deb/{p;s/^deb/deb-src/;}''` /etc/apt/sources.list')
 define(`PREINSTALL',
 `RUN dpkg --add-architecture DEBARCH
-RUN sed -i ''`/deb/{p;s/^deb/deb-src/;}''` /etc/apt/sources.list')
+ADD_DEBSRC')
 
 define(`UPDATE', `apt-get update && apt-get build-dep --yes -a DEBARCH PACKAGE')
 
