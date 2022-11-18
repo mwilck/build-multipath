@@ -45,7 +45,7 @@ jobs:
       - name: set arch list (64bit)
         if: >
           ${{ matrix.os == 'fedora/rawhide' ||
-              startswith(matrix.os) == 'opensuse/leap' }}
+              startswith(matrix.os, 'opensuse/leap') }}
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
            >> $GITHUB_ENV
