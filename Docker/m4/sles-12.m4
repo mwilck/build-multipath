@@ -1,5 +1,5 @@
 ifdef(`SP', , `define(`SP', `sp5')')
-define(`BASE', `suse/sles12`'SP')
+define(`BASE', `registry.suse.com/suse/sles12`'SP')
 define(`DEFAULT_TAG', `6.5.398')
 define(`INSTALL', `ZYPPER --no-refresh install --no-recommends --force-resolution')
 define(`SLE_SDK', `sle-sdk')

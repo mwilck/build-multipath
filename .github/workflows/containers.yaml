@@ -93,12 +93,27 @@ jobs:
           key: containers-${{ matrix.os }}
 
       - name: Build and push container
+        if: ! startswith(matrix.os, 'sles')
         uses: docker/build-push-action@v3
         with:
           context: ./container
           push: true
           platforms: ${{ env.PLATFORMS }}
           tags: ghcr.io/mwilck/multipath-build-${{ matrix.os }}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache-${{ matrix.os }}
+          cache-to: type=local,dest=/tmp/.new-buildx-cache-${{ matrix.os }}
+
+      - name: Build and push container (SLES)
+        if: startswith(matrix.os, 'sles') && secrets.SCCCREDENTIALS != ''
+        uses: docker/build-push-action@v3
+        with:
+          context: ./container
+          push: true
+          platforms: ${{ env.PLATFORMS }}
+          tags: ghcr.io/mwilck/multipath-build-${{ matrix.os }}:latest
+          secrets: |
+            "SUSEConnect=${{ secrets.SUSECONNECT }}"
+            "SCCcredentials=${{ secrets.SCCCREDENTIALS }}"
           cache-from: type=local,src=/tmp/.buildx-cache-${{ matrix.os }}
           cache-to: type=local,dest=/tmp/.new-buildx-cache-${{ matrix.os }}
 
