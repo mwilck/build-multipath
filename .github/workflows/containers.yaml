@@ -18,6 +18,7 @@ jobs:
           - debian-bullseye
           - debian-buster
           - debian-jessie
+          - fedora-36
           - fedora-rawhide
           - centos-8
           - centos-7
