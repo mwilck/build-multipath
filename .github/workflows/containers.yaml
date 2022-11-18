@@ -48,7 +48,7 @@ jobs:
         if: ${{ startswith(matrix.os, 'centos') }}
         run: echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le >> $GITHUB_ENV
       - name: set arch list (debian old)
-        if: ${{ matrix.os == 'debian/buster' || matrix.os == 'debian/jessie' }}
+        if: ${{ matrix.os == 'debian-buster' || matrix.os == 'debian-jessie' }}
         run: echo PLATFORMS=linux/amd64,linux/arm/v7,linux/386 >> $GITHUB_ENV
       - name: set arch list (arch linux)
         # SLES: need different secret for every arch, ours works only for x86_64
