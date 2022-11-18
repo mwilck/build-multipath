@@ -1,3 +1,4 @@
+---
 name: build multi-arch containers
 on:
   push:
@@ -37,7 +38,9 @@ jobs:
         id: m4
         run: |
           mkdir ./container
-          m4 -I Docker/m4 -D DISTRO=${{ matrix.os }} header.m4 dockerfile.m4 >./container/Dockerfile
+          m4 -I Docker/m4 -D DISTRO=${{ matrix.os }} \
+             header.m4 dockerfile.m4 >./container/Dockerfile
+          cat ./container/Dockerfile
 
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -45,7 +48,6 @@ jobs:
           path: /tmp/.buildx-cache-${{ matrix.os }}
           key: containers-${{ matrix.os }}
 
-    - name: 
       - name: Build and push container
         uses: docker/build-push-action@v3
         with:
@@ -58,9 +60,10 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache-${{ matrix.os }}
           cache-to: type=local,dest=/tmp/.new-buildx-cache-${{ matrix.os }}
 
-    - name: Move cache
-      # Avoid cache growing too large
-      # https://github.com/docker/build-push-action/issues/252
-      run: |
+      - name: Move cache
+        # Avoid cache growing too large
+        # https://github.com/docker/build-push-action/issues/252
+        run: |
           rm -rf /tmp/.buildx-cache-${{ matrix.os }}
-          mv /tmp/.new-buildx-cache-${{ matrix.os }} /tmp/.buildx-cache-${{ matrix.os }}
+          mv /tmp/.new-buildx-cache-${{ matrix.os }} \
+             /tmp/.buildx-cache-${{ matrix.os }}
