@@ -43,12 +43,12 @@ jobs:
           startswith(matrix.os, 'sles')
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
-           >> $GITHUB_ENV
+          >> $GITHUB_ENV
       - name: set arch list (centos7)
         if: ${{ matrix.os == 'centos-7' }}
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/386
-           >> $GITHUB_ENV
+          >> $GITHUB_ENV
       - name: set arch list (centos8)
         if: ${{ matrix.os == 'centos-8' }}
         run: echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le >> $GITHUB_ENV
