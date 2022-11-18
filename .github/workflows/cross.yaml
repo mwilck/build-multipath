@@ -57,8 +57,12 @@ jobs:
           tags: >-
             ghcr.io/mwilck/multipath-cross-${{ matrix.os }}-${{ matrix.arch }}
             :latest
-          cache-from: type=local,src=/tmp/.buildx-cache-${{ matrix.os }}-${{ matrix.arch }}
-          cache-to: type=local,dest=/tmp/.new-buildx-cache-${{ matrix.os }}-${{ matrix.arch }}
+          cache-from: >-
+            type=local,src=/tmp/.buildx-cache-
+            ${{ matrix.os }}-${{ matrix.arch }}
+          cache-to: >-
+            type=local,dest=/tmp/.new-buildx-cache-
+            ${{ matrix.os }}-${{ matrix.arch }}
 
       - name: Move cache
         # Avoid cache growing too large
@@ -68,7 +72,6 @@ jobs:
           mv /tmp/.new-buildx-cache-${{ matrix.os }} \
              /tmp/.buildx-cache-${{ matrix.os }}
 
-jobs:
   build-runner:
     runs-on: ubuntu-20.04
     strategy:
