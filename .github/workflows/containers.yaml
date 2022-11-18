@@ -45,4 +45,4 @@ jobs:
           context: ./container
           push: true
           platforms: linux/amd64
-          tags: mwilck/multipath-build-${{ matrix.os }}:latest
+          tags: ghcr.io/mwilck/multipath-build-${{ matrix.os }}:latest
