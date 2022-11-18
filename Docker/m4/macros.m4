@@ -1,11 +1,3 @@
-define(`try_include',
-`syscmd(`test -f $1')
- ifelse(sysval, 0,
- 	`include(`$1')',
-	`errprint(`"$1" does not exist
-')
-	m4exit(`1')')')
-
 # map operation on comma-separated list, ends up separated by $2
 define(`map',
 	`ifelse($#, 0, , $#, 1, , $#, 2, ,
