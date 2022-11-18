@@ -9,9 +9,13 @@ jobs:
   build-multi:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         os:
           - alpine
+          - debian/sid
+          - fedora/rawhide
+          - opensuse/tumbleweed
 
     steps:
 
@@ -27,6 +31,18 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: set arch list (full)
+        if: ${{ matrix.os == 'alpine' || matrix.os == 'debian/sid' }}
+        run: >-
+          echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,
+          linux/arm/v7,linux/386 >> $GITHUB_ENV
+
+      - name: set arch list (64bit)
+        if: ${{ matrix.os == 'fedora/rawhide' }}
+        run: >-
+          echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
+           >> $GITHUB_ENV
 
       - name: Set up QEMU
         id: qemu
@@ -53,9 +69,7 @@ jobs:
         with:
           context: ./container
           push: true
-          platforms: >-
-            linux/amd64,linux/arm/v7,linux/386,
-            linux/arm64,linux/ppc64le,linux/s390x
+          platforms: ${{ env.PLATFORMS }}
           tags: ghcr.io/mwilck/multipath-build-${{ matrix.os }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache-${{ matrix.os }}
           cache-to: type=local,dest=/tmp/.new-buildx-cache-${{ matrix.os }}
