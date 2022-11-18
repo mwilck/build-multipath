@@ -11,14 +11,92 @@ All files in this project are licensed under the [GNU General Public License
 v2.0](COPYING), or any later version. **THE CODE IS PROVIDED WITHOUT WARRANTY OF ANY
 KIND**. Refer to the license text for details.
 
-## Github workflows
+## Purpose
 
-The project contains workflows that build a subset of the containers defined
-in this repository and upload them to [docker hub](https://hub.docker.com/u/mwilck).
-The containers are named `mwilck/multipath-build-$os-$arch` and
-`mwilck/multipath-run-$os-$arch` (see "foreign architectures") below).
-They are used by CI workflows on the
-[openSUSE multipath-tools repository](https://github.com/mwilck/multipath-tools/actions).
+### Dockerfile generation
+
+Generate Dockerfiles for creating build environments for compiling
+multipath-tools. The Dockerfiles are generated with **m4**. Currently
+supported distributions:
+
+  - Alpine
+  - Arch
+  - Centos (7, 8)
+  - Debian (jessie, buster, bullseye, sid)
+  - Fedora
+  - openSUSE Leap, Tumbleweed, SUSE Linux Enterprise Server
+  - Ubuntu 
+   
+These distributions are supported for multiple architectures.
+For Debian, cross-compilation environments are supported too.
+
+#### Using m4
+
+The m4 command line for creating a Dockerfile looks as follows:
+
+    m4 -I m4 -D DISTRO=$dist header.m4 dockerfile.m4
+
+The `DISTRO` argument has the format `$distribution[-$release[-$tag]]`.
+The "release" is a variant of the distribution and the "tag" is the docker
+registry tag to be used to pull the base image. The conventions vary between
+distributions, but the code has helpful defaults. Valid `DISTRO` values are e.g.:
+
+ - `alpine`, `arch`
+ - `debian-buster`, `debian-sid`
+ - `centos-8`
+ - `ubuntu-focal`
+ - `opensuse-leap-15.3` (note specific tag), `opensuse-leap`,
+   `opensuse-tumbleweed`
+ - `sles-15`, `sles-15-15.4`, `sles-12`
+ - `fedora-rawhide`, `fedora-36`
+ - `debian_cross-bullseye` (this is debian for cross-compilation)
+
+To create a Dockerfile for the runtime environment, use `runnerfile.m4`:
+
+    m4 -I m4 -D DISTRO=debian-bullseye header.m4 runnerfile.m4
+
+Optionally, you can also set `-D PACKAGE=multipath`. This might matter in the
+future if additional packages besides multipath-tools are supported. Currently
+it defaults to `multipath`.
+
+For SLES, the created dockerfiles use **secrets** that have to be passed on
+the docker command line. SLES builds support an option argument `-D TYPE=obs`
+which creates a Dockerfile suitable for building in the OpenSUSE Build Service (OBS).
+
+### Container generation
+
+Containers are generated from the Dockerfiles created above using GitHub
+workflows. The built packages are available from
+[ghcr.io](https://github.com/mwilck?tab=packages&repo_name=build-multipath).
+
+ - `multipath-build-$DISTRIBUTION[-$RELEASE]`: Containers for building and
+   running the unit tests.
+ - `multipath-cross-debian_cross-$RELEASE-$ARCH`: Cross-compilation
+   environment. For non-native architectures, cross compilation is much
+   faster than running in an emulator environment.
+ - `multipath-run-debian-$RELEASE`: Runtime environment to test the
+   cross-compiled binaries.
+   
+The build and cross-build containers expect the multipath-tools source
+directory to be mounted under `/build`. They use **make** as entrypoint. To
+compile multipath-tools and run the unit tests, run e.g.
+
+    docker run --platform linux/arm64 -it --rm -v $PWD:/build \
+	    ghcr.io/mwilck/multipath-build-centos-8 -j test
+
+(Note that for running non-native containers, you'll have to install the
+qemu-user package on your distribution. See e.g. [qemu-user-static](https://github.com/multiarch/qemu-user-static)).
+
+To use cross compilation:
+
+    docker run -it --rm -v $PWD:/build \
+	    ghcr.io/mwilck/multipath-cross-debian_cross-sid-s390x -j test-progs
+    docker run --platform linux/s390x -it --rm -v $PWD:/build \
+	    ghrc.io/mwilck/multipath-run-debian-sid test
+
+Note that the `test-progs` target is used for the build step.
+
+# Old content (deprecated)
 
 ## Containers (docker, podman)
 
