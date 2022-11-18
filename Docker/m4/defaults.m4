@@ -11,7 +11,7 @@ define(`libver', `errprint(`ERROR: libver is not set!
 
 define(`PREAMBLE', `dnl')
 define(`PREINSTALL', `dnl')
-define(`UPDATE', `')
+define(`UPDATE', `true')
 define(`RUN_ARGS', `')
 define(`CLEAN', `')
 define(`ENV_VARS', `')
