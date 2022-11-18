@@ -39,7 +39,7 @@ jobs:
         id: m4
         run: |
           mkdir ./container
-          m4 -I Docker/m4 -D DISTRO=${{ matrix.os }} \
+          m4 -I m4 -D DISTRO=${{ matrix.os }} \
               -D ARCH=${{ matrix.arch }} \
              header.m4 dockerfile.m4 >./container/Dockerfile
           cat ./container/Dockerfile
@@ -105,7 +105,7 @@ jobs:
         id: m4
         run: |
           mkdir ./container
-          m4 -I Docker/m4 -D DISTRO=${{ matrix.os }} \
+          m4 -I m4 -D DISTRO=${{ matrix.os }} \
              header.m4 dockerfile.m4 >./container/Dockerfile
           cat ./container/Dockerfile
 
