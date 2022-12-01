@@ -17,7 +17,6 @@ jobs:
           - debian-sid
           - debian-bullseye
           - debian-buster
-          - debian-jessie
           - fedora-36
           - fedora-rawhide
           - centos-8
@@ -27,6 +26,7 @@ jobs:
           - opensuse-leap-15.3
           - sles-15
           - sles-12
+          - ubuntu-trusty
 
     steps:
 
