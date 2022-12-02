@@ -1,9 +1,12 @@
 ---
-name: build cross-compile containers for stable distros
+name: build cross-compile containers
 on:
   push:
     branches:
       - master
+  schedule:
+    # re-build rolling distro containers once a week
+    - cron: '43 04 * * 1'
 
 jobs:
   build-cross:
@@ -12,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - debian_cross-bullseye
+          - debian_cross-sid
         arch:
           - arm64
           - ppc64le

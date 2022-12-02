@@ -1,49 +1,35 @@
 ---
-name: build multi-arch containers for stable distros
+name: build multi-arch containers for rolling distros
 on:
   push:
     branches:
       - master
+  schedule:
+    # re-build rolling distro containers once a week
+    - cron: '17 04 * * 1'
 
 jobs:
   build-multi:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         os:
-          - debian-bullseye
-          - debian-buster
-          - fedora-36
-          - fedora-37
-          - centos-8
-          - centos-7
-          - opensuse-leap
-          - opensuse-leap-15.3
-          - sles-15
-          - sles-12
-          - ubuntu-trusty
+          - alpine
+          - arch
+          - debian-sid
+          - fedora-rawhide
+          - opensuse-tumbleweed
 
     steps:
 
       - name: set arch list (64bit)
-        if: |
-          startswith(matrix.os, 'fedora-') ||
-          startswith(matrix.os, 'opensuse-leap') 
+        if: startswith(matrix.os, 'fedora-')
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           >> $GITHUB_ENV
-      - name: set arch list (centos)
-        if: ${{ startswith(matrix.os, 'centos-') }}
-        run: echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le >> $GITHUB_ENV
-      - name: set arch list (debian / ubuntu oldstable)
-        if: |
-          matrix.os == 'debian-buster' || matrix.os == 'debian-jessie' ||
-          matrix.os == 'ubuntu-trusty'
-        run: echo PLATFORMS=linux/amd64,linux/arm/v7,linux/386 >> $GITHUB_ENV
-      - name: set arch list (arch linux / SLE)
-        # SLES: need different secret for every arch, ours works only for x86_64
-        if: ${{ matrix.os == 'arch' || startswith(matrix.os, 'sles-') }}
+      - name: set arch list (arch)
+        if: matrix.os == 'arch'
         run: echo PLATFORMS=linux/amd64 >> $GITHUB_ENV
       - name: set arch list (full / fallback)
         if: env.PLATFORMS == ''
