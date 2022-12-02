@@ -72,7 +72,6 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - debian-sid
           - debian-bullseye
 
     steps:
