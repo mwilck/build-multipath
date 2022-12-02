@@ -49,10 +49,8 @@ jobs:
         # SLES: need different secret for every arch, ours works only for x86_64
         if: ${{ matrix.os == 'arch' || startswith(matrix.os, 'sles-') }}
         run: echo PLATFORMS=linux/amd64 >> $GITHUB_ENV
-      - name: set arch list (full)
-        if: |
-          matrix.os == 'alpine' || matrix.os == 'opensuse-tumbleweed' ||
-          startswith(matrix.os ,'debian-') || startswith(matrix.os ,'ubuntu-')
+      - name: set arch list (full / fallback)
+        if: env.PLATFORMS == ''
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,
           linux/arm/v7,linux/386 >> $GITHUB_ENV
