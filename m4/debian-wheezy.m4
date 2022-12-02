@@ -1,0 +1,7 @@
+define(`dev_pkgs', patsubst(dev_pkgs, ` cmocka', `'))
+define(`dev_pkgs', patsubst(dev_pkgs, ` json-c', `'))
+define(`CMOCKA_VER', `1.0.1')
+define(`CMOCKA_DEPS', `curl cmake')
+define(`PREINSTALL', `RUN echo "deb http://archive.debian.org/debian/ RELEASE contrib main non-free" >/etc/apt/sources.list; echo "deb http://archive.debian.org/debian-security/ RELEASE updates/main updates/contrib updates/non-free" >>/etc/apt/sources.list')
+define(`INSTALL', INSTALL `--force-yes')
+define(`DOWNLOAD', `curl -k -v -o "$2" "$1"')
