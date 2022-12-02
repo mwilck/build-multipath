@@ -30,30 +30,32 @@ jobs:
 
     steps:
 
-      - name: set arch list (full)
-        if: |
-          matrix.os == 'alpine' || matrix.os == 'debian-sid' ||
-          matrix.os == 'debian-bullseye' || matrix.os == 'opensuse-tumbleweed'
-        run: >-
-          echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,
-          linux/arm/v7,linux/386 >> $GITHUB_ENV
       - name: set arch list (64bit)
         if: |
-          startswith(matrix.os, 'fedora') ||
+          startswith(matrix.os, 'fedora-') ||
           startswith(matrix.os, 'opensuse-leap') 
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           >> $GITHUB_ENV
       - name: set arch list (centos)
-        if: ${{ startswith(matrix.os, 'centos') }}
+        if: ${{ startswith(matrix.os, 'centos-') }}
         run: echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le >> $GITHUB_ENV
-      - name: set arch list (debian old)
-        if: ${{ matrix.os == 'debian-buster' || matrix.os == 'debian-jessie' }}
+      - name: set arch list (debian / ubuntu oldstable)
+        if: |
+          matrix.os == 'debian-buster' || matrix.os == 'debian-jessie' ||
+          matrix.os == 'ubuntu-trusty'
         run: echo PLATFORMS=linux/amd64,linux/arm/v7,linux/386 >> $GITHUB_ENV
-      - name: set arch list (arch linux)
+      - name: set arch list (arch linux / SLE)
         # SLES: need different secret for every arch, ours works only for x86_64
-        if: ${{ matrix.os == 'arch' || startswith(matrix.os, 'sles') }}
+        if: ${{ matrix.os == 'arch' || startswith(matrix.os, 'sles-') }}
         run: echo PLATFORMS=linux/amd64 >> $GITHUB_ENV
+      - name: set arch list (full)
+        if: |
+          matrix.os == 'alpine' || matrix.os == 'opensuse-tumbleweed' ||
+          startswith(matrix.os ,'debian-') || startswith(matrix.os ,'ubuntu-')
+        run: >-
+          echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,
+          linux/arm/v7,linux/386 >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
