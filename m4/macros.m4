@@ -31,7 +31,7 @@ define(`ENV_CMD', `ENV $1')
 
 define(`LABELS',
 `LABEL_PREFIX
-LABEL org.opencontainers.image.title="build-PACKAGE"
+LABEL org.opencontainers.image.title="IMAGE_TITLE"
 LABEL org.opencontainers.image.description="container for building PACKAGE on DISTRO/RELEASE"
 EXTRA_LABELS
 LABEL_SUFFIX')

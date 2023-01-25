@@ -16,8 +16,8 @@ define(`pkgconfig', `pkg-config')
 
 # for OBS, provide labels
 ifelse(TYPE, `obs',
-`define(`PREAMBLE', ``#'!BuildTag: build-PACKAGE:latest build-PACKAGE:VERSION build-PACKAGE:VERSION.%`RELEASE'%')
-define(`LABEL_PREFIX', ``#' labelprefix=org.opensuse.build-PACKAGE')
+`define(`PREAMBLE', ``#'!BuildTag: IMAGE_TITLE:latest IMAGE_TITLE:VERSION IMAGE_TITLE:VERSION.%`RELEASE'%')
+define(`LABEL_PREFIX', ``#' labelprefix=org.opensuse.IMAGE_TITLE')
 define(`EXTRA_LABELS',
 `LABEL org.openbuildservice.disturl="%DISTURL%"
 LABEL org.opencontainers.image.created="%BUILDTIME%"')

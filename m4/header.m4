@@ -1,6 +1,7 @@
 divert(-1)
 # The following macros can/should be set by the user via -D
 ifdef(`PACKAGE', , `define(`PACKAGE', `multipath')')
+ifdef(`IMAGE_TITLE', , `define(`IMAGE_TITLE', `build-PACKAGE')')
 
 # support DISTRO=sles-15-15.2 syntax, will be split into
 # DISTRO=sles RELEASE=15 TAG=15.2
