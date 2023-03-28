@@ -63,6 +63,8 @@ For SLES, the created dockerfiles use **secrets** that have to be passed on
 the docker command line. SLES builds support an option argument `-D TYPE=obs`
 which creates a Dockerfile suitable for building in the OpenSUSE Build Service (OBS).
 
+Additional packages can be included in the build container using `-DADD_PKGS=$package`.
+
 ### Container generation
 
 Containers are generated from the Dockerfiles created above using GitHub

@@ -17,7 +17,7 @@ define(`decomma',
 # map operation on space-separated list
 define(`map_spc', `map(`$1', ` ', translit($2, ` ', `,'))')
 
-define(`BUILD_PKGS', `build_pkgs extra_build')
+define(`BUILD_PKGS', `build_pkgs extra_build ADD_PKGS')
 define(`DEVEL_PKGS',
 `map_spc(`devext', `dev_pkgs') ifelse(extra_dev, `', , map_spc(`devext', `extra_dev'))')
 define(`_libver', lib`$1`'libver(`$1')')
