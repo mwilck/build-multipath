@@ -23,6 +23,8 @@ jobs:
           - sles-15
           - sles-12
           - ubuntu-trusty
+          - ubuntu-jammy
+          - ubuntu-kinetic
 
     steps:
 
