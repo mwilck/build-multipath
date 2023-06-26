@@ -16,5 +16,5 @@ VOLUME /build
 WORKDIR /build
 ENV LD=aarch64-linux-gnu-ld
 ENV CC=aarch64-linux-gnu-gcc
-ENV PKGCONFIG=aarch64-linux-gnu-pkg-config
+ENV PKG_CONFIG=aarch64-linux-gnu-pkg-config
 ENTRYPOINT ["make"]

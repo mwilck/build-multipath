@@ -16,5 +16,5 @@ VOLUME /build
 WORKDIR /build
 ENV LD=s390x-linux-gnu-ld
 ENV CC=s390x-linux-gnu-gcc
-ENV PKGCONFIG=s390x-linux-gnu-pkg-config
+ENV PKG_CONFIG=s390x-linux-gnu-pkg-config
 ENTRYPOINT ["make"]

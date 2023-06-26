@@ -13,7 +13,7 @@ ADD_DEBSRC')
 
 define(`UPDATE', `apt-get update && apt-get build-dep --yes -a DEBARCH PACKAGE')
 
-define(`ENV_VARS', `LD=ARCHPREFIX-ld CC=ARCHPREFIX-gcc PKGCONFIG=ARCHPREFIX-pkg-config')
+define(`ENV_VARS', `LD=ARCHPREFIX-ld CC=ARCHPREFIX-gcc PKG_CONFIG=ARCHPREFIX-pkg-config')
 
 # Architecture translations
 ifdef(`ARCH', , `define(`ARCH', `arm64')')

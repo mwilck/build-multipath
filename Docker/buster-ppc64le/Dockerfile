@@ -16,5 +16,5 @@ VOLUME /build
 WORKDIR /build
 ENV LD=powerpc64le-linux-gnu-ld
 ENV CC=powerpc64le-linux-gnu-gcc
-ENV PKGCONFIG=powerpc64le-linux-gnu-pkg-config
+ENV PKG_CONFIG=powerpc64le-linux-gnu-pkg-config
 ENTRYPOINT ["make"]
