@@ -12,6 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
+          - debian-bookworm
           - debian-bullseye
           - debian-buster
           - fedora-36
