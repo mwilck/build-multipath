@@ -68,7 +68,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache-${{ matrix.os }}
-          key: containers-${{ matrix.os }}
+          key: rolling-${{ matrix.os }}
 
       - name: Build and push container
         if: ${{ ! startswith(matrix.os, 'sles') }}
