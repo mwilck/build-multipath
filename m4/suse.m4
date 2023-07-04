@@ -11,8 +11,15 @@ define(`rename',
 `ifelse($1, `udev', `systemd',
         $1, `devmapper', `device-mapper',
         $1, `readline', `$1',
+        $1, `ssl', `openssl',
+	$1, `dbus-1', `$1',
+	$1, `keyutils', `$1',
+	$1, `pam', `$1',
+	$1, `curl4-openssl', `libcurl',
 	`lib$1')')
 define(`pkgconfig', `pkg-config')
+define(`gplusplus', `gcc-c++')
+define(`py3setuptools', `python3-setuptools')
 
 # for OBS, provide labels
 ifelse(TYPE, `obs',

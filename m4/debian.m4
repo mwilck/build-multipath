@@ -7,3 +7,5 @@ define(`CLEAN', `apt-get clean')
 
 # package renames
 define(`pkgconfig', `pkg-config')
+define(`gplusplus', `g++')
+define(`py3setuptools', `python3-setuptools')

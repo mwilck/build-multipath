@@ -11,4 +11,11 @@ define(`rename',
 	$1, `urcu', `userspace-rcu',
 	$1, `readline', `$1',
 	$1, `json-c', `$1',
+        $1, `ssl', `openssl',
+	$1, `dbus-1', `dbus',
+	$1, `keyutils', `$1-libs',
+	$1, `pam', `$1',
+	$1, `curl4-openssl', `libcurl',
 	`lib$1')')
+define(`gplusplus', `gcc-c++')
+define(`py3setuptools', `python3-setuptools')
