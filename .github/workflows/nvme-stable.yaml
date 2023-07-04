@@ -1,5 +1,5 @@
 ---
-name: build multi-arch containers for stable distros
+name: build nvme multi-arch containers for stable distros
 on:
   push:
     branches:

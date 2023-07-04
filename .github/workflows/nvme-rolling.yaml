@@ -1,5 +1,5 @@
 ---
-name: build multi-arch containers for rolling distros
+name: build nvme multi-arch containers for rolling distros
 on:
   push:
     branches:
