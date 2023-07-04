@@ -54,4 +54,4 @@ RUN_CMD(`rm -rf /tmp/cmocka*')
 RUN_CMD(`REMOVE(`CMOCKA_DEPS')')')
 
 define(`BUILD_CMOCKA',
-`ifdef(`CMOCKA_VER', `_BUILD_CMOCKA', `dnl')')
+`ifdef(`CMOCKA_VER', `ifdef(`NEED_CMOCKA', `_BUILD_CMOCKA', `dnl')', `dnl')')
