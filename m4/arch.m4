@@ -1,6 +1,12 @@
 define(`BASE',`archlinux')
 define(`DEFAULT_RELEASE', `base')
-define(`devext', `$1')
+define(`devext',
+`ifelse($1, `curl4-openssl', `curl',
+	$1, `dbus-1', `dbus',
+	$1, `archive', `lib$1',
+	$1, `cap-ng', `lib$1',
+	`$1')')
+
 define(`INSTALL', `pacman -Sy --noconfirm')
 
 # package renames
@@ -10,3 +16,6 @@ define(`edit', `libedit')
 define(`aio', `libaio')
 define(`udev', `systemd-libs')
 define(`mount', `util-linux-libs')
+define(`gplusplus', `gcc')
+define(`ssl', `openssl')
+define(`py3setuptools', `python-setuptools')
