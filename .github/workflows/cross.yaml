@@ -13,6 +13,7 @@ jobs:
       matrix:
         os:
           - debian_cross-bullseye
+          - debian_cross-bookworm
         arch:
           - arm64
           - ppc64le
@@ -73,6 +74,7 @@ jobs:
       matrix:
         os:
           - debian-bullseye
+          - debian-bookworm
 
     steps:
 
