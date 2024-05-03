@@ -27,7 +27,7 @@ jobs:
           - sles-12
           - ubuntu-trusty
           - ubuntu-jammy
-          - ubuntu-kinetic
+          - ubuntu-noble
 
     steps:
 
