@@ -15,4 +15,4 @@ ifelse(TYPE, `obs',
 
 # package renames
 ifelse(regexp(TAG, `^15.0'), 0, `define(`clang', `clang5')',
-       regexp(TAG, `^15.[123]'), 0, `define(`clang', `clang7')')
+       `define(`clang', `clang7')')
