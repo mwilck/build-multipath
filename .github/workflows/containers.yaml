@@ -20,7 +20,9 @@ jobs:
           - centos-8
           - centos-7
           - opensuse-leap
-          - opensuse-leap-15.3
+          - opensuse-leap-15.6
+          - sles-15-15.6
+          - sles-15-15.3
           - sles-15
           - sles-12
           - ubuntu-trusty
