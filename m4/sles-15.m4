@@ -11,7 +11,7 @@ ifelse(TYPE, `obs',
   include(`sles-buildx.m4')
   # SLE15-SP3 and SP4 have cmocka, but only for amd64 (bsc#12055542)
   # On OBS, the package seems to be found
-  include(`sles-cmocka.m4')')
+  ifelse(regexp(TAG, `15.[01234]'), 0, `include(`sles-cmocka.m4')')')
 
 # package renames
 ifelse(regexp(TAG, `^15.0'), 0, `define(`clang', `clang5')',
