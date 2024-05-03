@@ -16,13 +16,11 @@ jobs:
           - debian-bookworm
           - debian-bullseye
           - debian-buster
-          - fedora-38
-          - fedora-39
+          - fedora-40
           - centos-8
           - opensuse-leap
-          - opensuse-leap-15.3
           - ubuntu-jammy
-          - ubuntu-kinetic
+          - ubuntu-noble
 
     steps:
 
@@ -30,7 +28,8 @@ jobs:
         if: |
           startswith(matrix.os, 'fedora-') ||
           startswith(matrix.os, 'opensuse-leap') ||
-          matrix.os == 'ubuntu-jammy' || matrix.os == 'ubuntu-kinetic'
+          matrix.os == 'ubuntu-jammy' || matrix.os == 'ubuntu-kinetic' ||
+          matrix.os == 'ubuntu-noble'
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           >> $GITHUB_ENV
