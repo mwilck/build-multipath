@@ -60,8 +60,12 @@ future if additional packages besides multipath-tools are supported. Currently
 it defaults to `multipath`.
 
 For SLES, the created dockerfiles use **secrets** that have to be passed on
-the docker command line. SLES builds support an option argument `-D TYPE=obs`
-which creates a Dockerfile suitable for building in the OpenSUSE Build Service (OBS).
+the docker command line. This is necessary for building the containers
+locally. `sles` and `opensuse-leap` builds support an option argument `-D TYPE=obs`
+which creates a Dockerfile suitable for building in the OpenSUSE Build Service
+(OBS), which will omit the secrets (not necessary on OBS) and will add
+additional labels and meta data that OBS requires
+(see [Building derived containers](https://en.opensuse.org/Building_derived_containers)).
 
 Additional packages can be included in the build container using `-DADD_PKGS=$package`.
 
