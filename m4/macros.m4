@@ -36,13 +36,13 @@ LABEL org.opencontainers.image.description="container for building PACKAGE on DI
 EXTRA_LABELS
 LABEL_SUFFIX')
 
-define(`DOWNLOAD', `wget --no-check-certificate -q "$1"')
+define(`DOWNLOAD', `RUN wget --no-check-certificate -q "$1"')
 
 define(CMOCKA_DEFS, `')
 define(`_BUILD_CMOCKA',
 `RUN_CMD(`INSTALL CMOCKA_DEPS')
 WORKDIR /tmp
-RUN_CMD(`DOWNLOAD(`https://cmocka.org/files/patsubst(CMOCKA_VER, \([0-9]\.[0-9]\)\..*, \1)/cmocka-CMOCKA_VER.tar.xz', `cmocka-CMOCKA_VER.tar.xz')')
+DOWNLOAD(`https://cmocka.org/files/patsubst(CMOCKA_VER, \([0-9]\.[0-9]\)\..*, \1)/cmocka-CMOCKA_VER.tar.xz', `cmocka-CMOCKA_VER.tar.xz')
 RUN_CMD(`tar xfJ cmocka-CMOCKA_VER.tar.xz && \
     mkdir -p cmocka-CMOCKA_VER/build && \
     rm -f cmocka-CMOCKA_VER/CMakeCache.txt')
