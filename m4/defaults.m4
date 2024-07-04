@@ -9,6 +9,7 @@ define(`extra_dev', `')
 define(`libver', `errprint(`ERROR: libver is not set!
 ')m4exit(`1')')')
 
+define(`VERSION', `0.3')
 define(`PREAMBLE', `dnl')
 define(`PREINSTALL', `dnl')
 define(`UPDATE', `true')

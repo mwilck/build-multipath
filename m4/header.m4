@@ -22,7 +22,6 @@ ifdef(`RELEASE',
 ifdef(`TAG', , `define(`TAG', `DEFAULT_TAG')')
 ifdef(`TYPE', , `define(`TYPE', `')')
 # only needed for OBS builds
-ifdef(`VERSION', , `define(`VERSION', `0.2')')
 ifdef(`ADD_PKGS', , `define(`ADD_PKGS', `')')
 
 include(`macros.m4')
