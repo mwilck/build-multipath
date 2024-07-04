@@ -40,8 +40,11 @@ jobs:
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           >> $GITHUB_ENV
-      - name: set arch list (centos)
-        if: ${{ startswith(matrix.os, 'centos-') }}
+      - name: set arch list (centos 7)
+        if: ${{ matrix.os == 'centos-7') }}
+        run: echo PLATFORMS=linux/amd64 >> $GITHUB_ENV
+      - name: set arch list (centos 8)
+        if: ${{ matrix.os == 'centos-8') }}
         run: echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le >> $GITHUB_ENV
       - name: set arch list (debian / ubuntu oldstable)
         if: |
