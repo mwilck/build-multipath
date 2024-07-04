@@ -1,4 +1,4 @@
-# Copyright (c) 2022 SUSE LLC
+# Copyright (c) 2024 SUSE LLC
 # SPDX-License-Identifier: GPL-2.0-or-later
 FROM BASE:TAG
 LABELS
