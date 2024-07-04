@@ -1,4 +1,4 @@
-define(`DEFAULT_TAG', `15.5')
+define(`DEFAULT_TAG', `15.6')
 
 ifelse(TYPE, `obs',
 # 221117: IBS can't handle the registry.suse.com/ prefix  ("unresolvable") 
