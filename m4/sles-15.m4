@@ -16,3 +16,5 @@ ifelse(TYPE, `obs',
 # package renames
 ifelse(regexp(TAG, `^15.0'), 0, `define(`clang', `clang5')',
        `define(`clang', `clang7')')
+
+define(`OBS_PRJ', `patsubst(TAG, `\([0-9]+\)\.\([0-9]+\)', `sles\1-sp\2')')

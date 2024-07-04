@@ -22,4 +22,8 @@ define(`LABEL_PREFIX', `dnl')
 define(`EXTRA_LABELS', `dnl')
 define(`LABEL_SUFFIX', `dnl')
 define(`DEBPKG', `PACKAGE')
+define(`OBS_REGISTRY', `registry.opensuse.org/home/mwilck/containers')
+define(`OBS_PRJ', `TAG')
+define(`OBS_REPO', `containers')
+
 define(`entrypoint', `bash')
