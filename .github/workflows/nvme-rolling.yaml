@@ -64,6 +64,11 @@ jobs:
              header.m4 dockerfile.m4 >./container/Dockerfile
           cat ./container/Dockerfile
 
+      - name: Copy files
+        run: |
+          [ ! -d ./${{ matrix.os }} ] || \
+          ln -t ./container ./${{ matrix.os }}/*
+
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:

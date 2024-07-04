@@ -69,6 +69,13 @@ additional labels and meta data that OBS requires
 
 Additional packages can be included in the build container using `-DADD_PKGS=$package`.
 
+### Additional files
+
+For some environments, additional files are required to build the container.
+These are stored under subdirectories of the name of the respective
+distribution (e.g. `centos-7`) and must be copied or linked into the same
+directory where the Dockerfile was stored before building the container.
+
 ### Container generation
 
 Containers are generated from the Dockerfiles created above using GitHub
