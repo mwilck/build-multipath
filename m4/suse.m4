@@ -27,5 +27,6 @@ ifelse(TYPE, `obs',
 define(`LABEL_PREFIX', ``#' labelprefix=org.opensuse.IMAGE_TITLE')
 define(`EXTRA_LABELS',
 `LABEL org.openbuildservice.disturl="%DISTURL%"
-LABEL org.opencontainers.image.created="%BUILDTIME%"')
+LABEL org.opencontainers.image.created="%BUILDTIME%"
+LABEL org.opensuse.reference="OBS_REGISTRY/OBS_PRJ/OBS_REPO/IMAGE_TITLE:VERSION.%`RELEASE'%"')
 define(`LABEL_SUFFIX', `# endlabelprefix')')
