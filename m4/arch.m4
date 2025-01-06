@@ -7,7 +7,7 @@ define(`devext',
 	$1, `cap-ng', `lib$1',
 	`$1')')
 
-define(`INSTALL', `pacman -Sy --noconfirm')
+define(`INSTALL', `pacman -Syu --noconfirm')
 
 # package renames
 define(`devmapper', `device-mapper')
