@@ -1,4 +1,4 @@
-define(`DEFAULT_RELEASE', `bullseye')
+define(`DEFAULT_RELEASE', `bookworm')
 define(`devext', `lib$1-dev')
 define(`UPDATE', `apt-get update')
 define(`INSTALL', `apt-get install --yes')
