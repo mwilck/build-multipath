@@ -3,10 +3,7 @@ name: build nvme multi-arch containers for rolling distros
 on:
   push:
     branches:
-      - master
-  schedule:
-    # re-build rolling distro containers once a week
-    - cron: '17 04 * * 1'
+      - nvme
 
 jobs:
   build-multi:

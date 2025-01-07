@@ -3,7 +3,7 @@ name: build nvme multi-arch containers for stable distros
 on:
   push:
     branches:
-      - master
+      - nvme
 
 jobs:
   build-multi:
