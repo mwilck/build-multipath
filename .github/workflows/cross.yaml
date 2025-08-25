@@ -14,6 +14,7 @@ jobs:
         os:
           - debian_cross-bullseye
           - debian_cross-bookworm
+          - debian_cross-trixie
         arch:
           - arm64
           - ppc64le
