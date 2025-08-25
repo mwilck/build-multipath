@@ -20,6 +20,11 @@ jobs:
           - ppc64le
           - s390x
           - armhf
+        exclude:
+          - os: debian_cross-bullseye
+            arch: ppc64le
+          - os: debian_cross-bullseye
+            arch: s390x
 
     steps:
 
