@@ -86,6 +86,7 @@ jobs:
         os:
           - debian-bullseye
           - debian-bookworm
+          - debian-trixie
 
     steps:
 
