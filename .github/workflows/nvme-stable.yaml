@@ -13,6 +13,7 @@ jobs:
       matrix:
         # trusty doesn't have meson
         os:
+          - debian-trixie
           - debian-bookworm
           - debian-bullseye
           - debian-buster
