@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - nvme
+    paths:
+      - '.github/workflows/nvme-rolling.yaml'
+      - '**.m4'
 
 jobs:
   build-multi:

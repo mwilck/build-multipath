@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/cross-rolling.yaml'
+      - '**.m4'
   schedule:
     # re-build rolling distro containers once a week
     - cron: '43 04 * * 1'

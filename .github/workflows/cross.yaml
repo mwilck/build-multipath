@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/cross.yaml'
+      - '**.m4'
 
 jobs:
   build-cross:
