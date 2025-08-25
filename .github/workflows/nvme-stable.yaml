@@ -16,7 +16,7 @@ jobs:
           - debian-bookworm
           - debian-bullseye
           - debian-buster
-          - fedora-40
+          - fedora-42
           - centos-8
           - opensuse-leap
           - ubuntu-jammy
