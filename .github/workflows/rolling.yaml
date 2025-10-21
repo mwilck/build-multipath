@@ -26,6 +26,9 @@ jobs:
 
     steps:
 
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
       - name: set arch list (64bit)
         if: startswith(matrix.os, 'fedora-')
         run: >-
