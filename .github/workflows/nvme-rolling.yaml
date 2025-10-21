@@ -1,5 +1,5 @@
 ---
-name: build nvme multi-arch containers for rolling distros
+name: "nvme-rolling: nvme build containers"
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
       - '**.m4'
 
 jobs:
-  build-multi:
+  build:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false

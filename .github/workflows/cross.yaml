@@ -1,5 +1,5 @@
 ---
-name: build cross-compile containers for stable distros
+name: "cross: Debian stable cross-compile containers"
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
       - '**.m4'
 
 jobs:
-  build-cross:
+  builder:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -81,7 +81,7 @@ jobs:
           mv /tmp/.new-buildx-cache-${{ matrix.os }}-${{ matrix.arch }} \
              /tmp/.buildx-cache-${{ matrix.os }}-${{ matrix.arch }}
 
-  build-runner:
+  runner:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false

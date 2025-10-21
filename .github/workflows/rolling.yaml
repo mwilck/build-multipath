@@ -1,5 +1,5 @@
 ---
-name: build multi-arch containers for rolling distros
+name: "rolling: build containers for rolling distros"
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ on:
     - cron: '17 04 * * 1'
 
 jobs:
-  build-multi:
+  build:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false

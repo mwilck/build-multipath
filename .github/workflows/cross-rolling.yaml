@@ -1,5 +1,5 @@
 ---
-name: build cross-compile containers
+name: "cross-rolling: Debian sid cross-compile containers"
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ on:
     - cron: '43 04 * * 1'
 
 jobs:
-  build-cross:
+  builder:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -77,7 +77,7 @@ jobs:
           mv /tmp/.new-buildx-cache-${{ matrix.os }}-${{ matrix.arch }} \
              /tmp/.buildx-cache-${{ matrix.os }}-${{ matrix.arch }}
 
-  build-runner:
+  runner:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
