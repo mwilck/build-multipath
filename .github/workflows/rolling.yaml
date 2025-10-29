@@ -10,6 +10,7 @@ on:
   schedule:
     # re-build rolling distro containers once a week
     - cron: '17 04 * * 1'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,6 +27,12 @@ jobs:
 
     steps:
 
+      - name: Check system
+        run: |
+          free
+          df -m
+          systemctl
+          systemd-cgls
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
 
