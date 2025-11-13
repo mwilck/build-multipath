@@ -7,7 +7,7 @@ ifelse(TYPE, `obs',
 # for local builds, include the secrets / credentials
 # BASE = registry.suse.com/bci/bci-base works, too, but only for 15.3 and later
  `define(`BASE', `registry.suse.com/suse/sle15')
-  define(`SLE_SDK', `sle-module-development-tools')
+  define(`ADDON_MODS', `sle-module-development-tools,PackageHub')
   include(`sles-buildx.m4')
   # SLE15-SP3 and SP4 have cmocka, but only for amd64 (bsc#12055542)
   # On OBS, the package seems to be found
