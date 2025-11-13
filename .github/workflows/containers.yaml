@@ -25,12 +25,11 @@ jobs:
           - centos-stream-9
           - centos-8
           - centos-7
-          - opensuse-leap
+          - opensuse-leap-16.0
           - opensuse-leap-15.6
           - sles-16-16.0
           - sles-15-15.7
           - sles-15-15.3
-          - sles-15
           - sles-12
           - ubuntu-trusty
           - ubuntu-jammy
