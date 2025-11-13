@@ -40,7 +40,8 @@ jobs:
       - name: set arch list (64bit)
         if: |
           startswith(matrix.os, 'fedora-') ||
-          startswith(matrix.os, 'opensuse-leap') ||
+          startswith(matrix.os, 'opensuse-leap-15') ||
+          startswith(matrix.os, 'centos-stream-') ||
           matrix.os == 'ubuntu-jammy' || matrix.os == 'ubuntu-kinetic' ||
           matrix.os == 'ubuntu-noble'
         run: >-
@@ -49,8 +50,10 @@ jobs:
       - name: set arch list (centos 7)
         if: ${{ matrix.os == 'centos-7' }}
         run: echo PLATFORMS=linux/amd64 >> $GITHUB_ENV
-      - name: set arch list (centos 8)
-        if: ${{ matrix.os == 'centos-8' }}
+      - name: set arch list (centos 8 / leap 16)
+        if: |
+          startswith(matrix.os, 'opensuse-leap-16') ||
+          matrix.os == 'centos-8'
         run: echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le >> $GITHUB_ENV
       - name: set arch list (debian / ubuntu oldstable)
         if: |
