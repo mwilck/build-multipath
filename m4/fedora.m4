@@ -19,3 +19,5 @@ define(`rename',
 	`lib$1')')
 define(`gplusplus', `gcc-c++')
 define(`py3setuptools', `python3-setuptools')
+
+define(`asan', `libasan')

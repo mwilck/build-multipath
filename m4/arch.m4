@@ -19,3 +19,5 @@ define(`mount', `util-linux-libs')
 define(`gplusplus', `gcc')
 define(`ssl', `openssl')
 define(`py3setuptools', `python-setuptools')
+define(`asan', `gcc-libs')
+

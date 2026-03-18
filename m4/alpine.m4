@@ -15,6 +15,7 @@ define(`mount', `util-linux')
 define(`gplusplus', `g++')
 define(`ssl', `openssl')
 define(`py3setuptools', `py3-setuptools')
+define(`asan', `gcc')
 
 define(`rename',
 `ifelse($1, `curl4-openssl', `curl',

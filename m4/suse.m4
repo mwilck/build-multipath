@@ -30,3 +30,6 @@ define(`EXTRA_LABELS',
 LABEL org.opencontainers.image.created="%BUILDTIME%"
 LABEL org.opensuse.reference="OBS_REGISTRY/OBS_PRJ/OBS_REPO/IMAGE_TITLE:VERSION.%`RELEASE'%"')
 define(`LABEL_SUFFIX', `# endlabelprefix')')
+
+# package renames
+define(`asan', `libasan8')

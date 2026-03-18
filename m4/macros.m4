@@ -17,11 +17,11 @@ define(`decomma',
 # map operation on space-separated list
 define(`map_spc', `map(`$1', ` ', translit($2, ` ', `,'))')
 
-define(`BUILD_PKGS', `build_pkgs extra_build ADD_PKGS')
+define(`BUILD_PKGS', `build_pkgs extra_build ADD_PKGS BUILD_LIBS')
 define(`DEVEL_PKGS',
 `map_spc(`devext', `dev_pkgs') ifelse(extra_dev, `', , map_spc(`devext', `extra_dev'))')
 define(`_libver', lib`$1`'libver(`$1')')
-define(`RUNTIME_LIBS', `map_spc(`_libver', `dev_pkgs')')
+define(`RUNTIME_LIBS', `map_spc(`_libver', `dev_pkgs') BUILD_LIBS')')
 
 define(`RUN_CMD',`ifelse($1, `', ,
 `RUN RUN_ARGS $1')')

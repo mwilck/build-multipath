@@ -1,5 +1,6 @@
 # Debian (buster) package names, except for pkg-config
 define(`build_pkgs', `')
+define(`BUILD_LIBS', `')
 define(`extra_build', `')
 # Debian (buster) package names, without "lib" prefix
 define(`dev_pkgs', `')
