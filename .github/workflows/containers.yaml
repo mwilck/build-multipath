@@ -19,6 +19,7 @@ jobs:
           - debian-bookworm
           - debian-bullseye
           - debian-buster
+          - debian-jessie
           - fedora-43
           - fedora-42
           - centos-stream-10
