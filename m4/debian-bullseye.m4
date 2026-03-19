@@ -10,3 +10,4 @@ define(`libver',
 	1)')
 define(`PREINSTALL', `RUN sed  -i ''`/snapshot/!d;/snapshot/s/^# //''` /etc/apt/sources.list')
 define(`UPDATE', `apt-get -o Acquire::Check-Valid-Until=false update')
+define(`asan', `libasan6')

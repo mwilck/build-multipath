@@ -4,3 +4,4 @@ define(`CMOCKA_DEPS', `wget xz-utils cmake')
 define(`devext',
 `ifelse($1, `pkgconf', `',
         `lib$1-dev')')
+define(`asan', `libasan0')
