@@ -4,7 +4,7 @@ define(`UPDATE', `ZYPPER refresh')
 define(`INSTALL', `ZYPPER --no-refresh install --no-recommends --force-resolution --allow-downgrade')
 define(`REMOVE', `ZYPPER remove --clean-deps $1')
 define(`CLEAN', `ZYPPER clean --all')
-define(`extra_build', `gzip gawk')
+define(`extra_build', `gzip gawk tar')
 
 # package renames
 define(`rename',
