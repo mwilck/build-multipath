@@ -35,6 +35,7 @@ jobs:
           - ubuntu-trusty
           - ubuntu-jammy
           - ubuntu-noble
+          - ubuntu-resolute
 
     steps:
 
@@ -44,7 +45,7 @@ jobs:
           startswith(matrix.os, 'opensuse-leap-15') ||
           startswith(matrix.os, 'centos-stream-') ||
           matrix.os == 'ubuntu-jammy' || matrix.os == 'ubuntu-kinetic' ||
-          matrix.os == 'ubuntu-noble'
+          matrix.os == 'ubuntu-noble' || matrix.os == 'ubuntu-resolute'
         run: >-
           echo PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           >> $GITHUB_ENV
